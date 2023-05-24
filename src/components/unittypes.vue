@@ -2,33 +2,14 @@
     <div class="">
         <div class="flex items-center justify-between my-2.5">
             <p class="font-bold text-lg">Unit Types</p>
-            <button class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Unit</button>
+            <button @click="isShowed()" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Unit</button>
         </div>
 
         <!-- addnewunit emit start here -->
-        <div class="py-2">
-            <Addnewunit />
+        <div class="py-2" v-if="isVisible">
+            <Addnewunit @click="isClosed()"/>
         </div>
         <!-- addnewunit emit end here -->
-        
-        <!-- <div class="grid grid-cols-6 bg-slate-100 border border-cyan-700">
-            <div class="col-span-2 flex justify-center items-center p-2">
-                <p>Category</p>
-            </div>
-            <div class="col-span-4 flex justify-center items-center border p-2">
-                <p>Details</p>
-            </div>
-        </div>
-        <div class="grid grid-cols-6 border border-cyan-700">
-            <div class="col-span-2 flex justify-center items-center border-e-2">
-                <p>Category Name:</p>
-            </div>
-            <div class="col-span-4 flex flex-col justify-center ps-10 py-10 space-y-3">
-                <p>Brand:</p>
-                <p>Model:</p>
-                <p>Quantity:</p>
-            </div>
-        </div> -->
 
         <!-- New product added table start -->
         <div class="w-full bg-gray-100 h-screen my-5 rounded-md">
@@ -71,14 +52,17 @@ import Addnewunit from '../components/addnewunit.vue';
         },
         data() {
             return {
+                isVisible: false
             }
         },
         mounted () {
         },
         methods: {
-            showModal() {
+            isShowed() {
+                this.isVisible = true
             },
-            closeModal() {
+            isClosed() {
+                this.isVisible = false
             },
             getProductData(value){
             }

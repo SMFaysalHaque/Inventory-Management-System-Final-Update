@@ -3,13 +3,13 @@
         <div class="flex justify-between items-center my-2.5">
             <p class="font-bold text-lg">Persons</p>
             <!-- add employee button start -->
-            <button class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Employee</button>
+            <button @click="isShowed(i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Employee</button>
             <!-- add employee button end -->
         </div>
 
         <!-- Add New Employee button area start -->
-        <div>
-            <Addnewemployee />
+        <div v-if="isVisible">
+            <Addnewemployee @click="isClosed()"/>
         </div>
         <!-- Add New Employee button area end -->
 
@@ -92,14 +92,17 @@ import AssignItem from '../components/AssignItem.vue'
         },
         data() {
             return {
+                isVisible: false
             }
         },
         mounted(){
         },
         methods: {
             isShowed(){
+                this.isVisible = true
             },
             isClosed(){
+                this.isVisible = false
             },
             assignProduct(){
             }
