@@ -1,151 +1,107 @@
 <template>
     <div>
-        <div class="headline-searchBar my-2.5">
-        <p class="font-bold text-lg">Persons</p>
-    </div>
+        <div class="flex justify-between items-center my-2.5">
+            <p class="font-bold text-lg">Persons</p>
+            <!-- add employee button start -->
+            <button class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Employee</button>
+            <!-- add employee button end -->
+        </div>
 
-    <div class="grid grid-cols-12 border border-cyan-700 bg-slate-100">
-        <div class="col-span-1 ms-2 border-e-2">
-            <p>Employee Serial No.</p>
+        <!-- Add New Employee button area start -->
+        <div>
+            <Addnewemployee />
         </div>
-        <div class="flex items-center justify-center col-span-3 border-e-2">
-            <p>Employee Info.</p>
-        </div>
-        <div class="flex items-center justify-center col-span-5 border-e-2">
-            <p>All Units</p>
-        </div>
-        <div class="flex items-center justify-center col-span-3">
-            <p>Assign Units</p>
-        </div>
-    </div>
-     
-    <div v-for="(personInfo, i) in personInfos" :key="i" class="grid grid-cols-12 border border-cyan-700">
-        <div class="flex justify-center items-center col-span-1 border-e-2">
-            <p>{{ i+1 }}</p>
-        </div>
-        <div class="flex flex-col justify-center ps-10 space-y-3 col-span-3 border-e-2">
-            <p>Name: {{ personInfo.name }}</p>
-            <p>Mobile: {{ personInfo.mobile }}</p>
-            <p>E-mail: {{ personInfo.email }}</p>
-        </div>
-        <div class="col-span-5 border-e-2">
-            <table class="table-fixed mx-5 my-5 w-11/12">
-                <thead>
-                    <tr>
-                        <th class="border border-slate-300 bg-slate-100 w-6/12 py-2 text-center">Type</th>
-                        <th class="border border-slate-300 bg-slate-100 w-6/12 py-2 text-center">Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(value, key) in personInfo.device" :key="value">
-                        <!-- {{ personInfo.device }} -->
-                        <td class="border border-slate-300 text-center py-3">{{ key }}</td>
-                        <td class="border border-slate-300 text-center py-3">{{ value }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="flex flex-col items-center justify-center col-span-3 mx-5 my-5">
-            <button class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 hover:bg-sky-600 hover:text-white px-10 py-3 me-2 ease-in duration-300" @click="isShowed(i)">Assign Units</button>
-            <div v-if="personInfo.show">
-                <AssignItem @assignProduct="assignProduct($event, i)" @close="isClosed(i)"/>
+        <!-- Add New Employee button area end -->
+
+        <!-- employee info and their products unit start -->
+        <div class="flex bg-gray-100 font-sans rounded-md my-2">
+
+            <!-- sidebar start -->
+            <div class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[300px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md">
+                <p class="ps-4 py-2 font-semibold">Employee Information</p>
+                <div class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
+                    <p class="px-2">01</p>
+                    <div class="px-2">
+                        <p>S. M. Faysal Haque</p>
+                        <p>faysal@gmail.com</p>
+                        <p>Mobile: 0172-2222222</p>
+                        <p>ID: 0001-04-2023</p>
+                    </div>
+                </div>
+                <div class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
+                    <p class="px-2">02</p>
+                    <div class="px-2">
+                        <p>Nayeem Hossain</p>
+                        <p>nayeem@gmail.com</p>
+                        <p>Mobile: 0156-6666666</p>
+                        <p>ID: 0002-12-2021</p>
+                    </div>
+                </div>
             </div>
+            <!-- sidebar end -->
+
+            <!-- product unit info start -->
+            <div class="w-full">
+                <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">S. M. Faysal Haque</p>
+                <p class="ms-5 pt-4 text-gray-500">E-mail <span class="ps-2 text-sky-500">faysal@gmail.com</span></p>
+                <p class="ms-5 pt-1 text-gray-500">Mobile <span class="ps-2 text-sky-500">0172-2222222</span></p>
+                <table class="table-auto w-[95%] ms-5 mt-5 border-collapse border border-slate-300">
+                    <thead>
+                        <tr class="h-10 bg-gray-300 border-b-2 border-gray-400">
+                            <th class="border border-slate-200 w-[35%]">Category</th>
+                            <th class="border border-slate-200">Brand</th>
+                            <th class="border border-slate-200">Model</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-slate-200 text-center">xyz</td>
+                            <td class="border border-slate-200 text-center">xyz</td>
+                            <td class="border border-slate-200 text-center">xyz</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-slate-200 text-center">xyz</td>
+                            <td class="border border-slate-200 text-center">xyz</td>
+                            <td class="border border-slate-200 text-center">xyz</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!-- assign unit button start -->
+                <button class="border border-sky-300 rounded-sm contrast-more:border-sky-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 hover:bg-sky-500 hover:text-white px-10 py-1 ms-5 mt-5 ease-in duration-200">Assign Units</button>
+                <!-- assign unit button end -->
+
+                <!-- assignItem unit area start -->
+                <div>
+                    <AssignItem  />
+                </div>
+                <!-- assignItem unit area end -->
+            </div>
+            <!-- product unit info end -->
         </div>
-    </div>
-    
+        <!-- employee info and their products unit end -->
     </div>
 </template>
 
 <script>
+import Addnewemployee from '../components/Addnewemployee.vue'
 import AssignItem from '../components/AssignItem.vue'
     export default {
         components: {
-            AssignItem,
+            AssignItem, Addnewemployee
         },
         data() {
             return {
-                // isModalVisible: false,
-                personInfos: [],
-                // selectedIndex: -1,
             }
         },
         mounted(){
-            this.personInfos = JSON.parse(localStorage.getItem('allEmployee'));
-            this.personInfos.forEach(element => {
-                element.show = false
-            });
-
-            
-            // console.log(this.personInfos)
-            // for (let index = 0; index < this.personInfos.length; index++) {
-            //     const element = this.personInfos[index].device.type;
-            //     console.log(element)
-            // }
-
         },
         methods: {
-            // addData(value) {
-            //     value= JSON.parse(JSON.stringify(value))
-            //     value.device.name="mouse"
-            //     value.device.quantity=1
-            //     console.log(value.device)
-            // }
-            isShowed(index){
-                // this.selectedIndex = index
-                // console.log(this.personInfos[index])
-                this.personInfos[index].show = true
+            isShowed(){
             },
-            isClosed(index){
-                this.personInfos[index].show = false
-                // this.isModalVisible = true
-                // this.selectedIndex = index
+            isClosed(){
             },
-            assignProduct(type, index){
-                console.log("typpe", type , "index", index);
-                const currentPerson = this.personInfos[index]
-                console.log(currentPerson)
-                if(!currentPerson.device[type]){
-                    currentPerson.device[type] = 1;
-                }
-                // else{
-                //     currentPerson.device[type] = 
-                // }
-                console.log("currentPerson", currentPerson);
-                localStorage.setItem('allEmployee', JSON.stringify(this.personInfos))
-
-
-                // console.log("typpe", type , "index", index);
-                // //get type quantity                                                 
-                // const allProducts = localStorage.getItem('allProductDetails')
-                // let typeQuantity = 0
-                // for (let index = 0; index < allProducts.length; index++) {
-                //     const product = allProducts[index];
-                //     if (product.type === type) {
-                //         typeQuantity = product.quantity
-                //     }
-                // }
-                // // count number of taken units
-                // let takenUnits = 0
-                // for (let index = 0; index < this.personInfos.length; index++) {
-                //     const person = this.personInfos[index];
-                //     takenUnits = takenUnits + person.device[type]
-                // }
-                // // if product available assign it to person else give alert
-                // if (takenUnits <= typeQuantity){
-                
-                //     const currentPerson = this.personInfos[index]
-                //     if(!currentPerson.device[type]){
-                //         currentPerson.device[type] = 1;
-                //     }
-                //     else{
-                //         currentPerson.device[type] = currentPerson.device[type] + 1
-                //     }
-                //     console.log("currentPerson", currentPerson);
-                //     localStorage.setItem('allEmployee', JSON.stringify(this.personInfos))
-                // }
-                // else{
-                //     alert(`${type} is not available`)
-                // }
+            assignProduct(){
             }
         }
     }
