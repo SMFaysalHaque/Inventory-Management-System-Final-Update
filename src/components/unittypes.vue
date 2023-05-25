@@ -6,8 +6,10 @@
         </div>
 
         <!-- addnewunit emit start here -->
-        <div class="py-2" v-if="isVisible">
-            <Addnewunit @click="isClosed()"/>
+        <div class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center" v-if="isVisible">
+            <div class="h-auto z-50 py-2">
+                <Addnewunit @closeUnitBtn="isClosed()" @setNewProduct="setNewProduct" class="flex relative bg-stone-200"/>
+            </div>
         </div>
         <!-- addnewunit emit end here -->
 
@@ -24,17 +26,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
+                    <tr v-for="(singleProductInfo) in productCategoryList" :key="singleProductInfo.i">
+                        <!-- <td class="border border-slate-200 text-center">{{ singleProductInfo.type.category }}</td>
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.type.brand }}</td>
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.type.model }}</td>
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.type.quantity }}</td> -->
+
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.category }}</td>
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.brand }}</td>
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.model }}</td>
+                        <td class="border border-slate-200 text-center">{{ singleProductInfo.quantity }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -52,7 +53,8 @@ import Addnewunit from '../components/addnewunit.vue';
         },
         data() {
             return {
-                isVisible: false
+                isVisible: false,
+                productCategoryList: []
             }
         },
         mounted () {
@@ -64,7 +66,10 @@ import Addnewunit from '../components/addnewunit.vue';
             isClosed() {
                 this.isVisible = false
             },
-            getProductData(value){
+            setNewProduct(value){
+                console.log(value);
+                this.productCategoryList.push(value)
+                
             }
         },
     }

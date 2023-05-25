@@ -3,13 +3,15 @@
         <div class="flex justify-between items-center my-2.5">
             <p class="font-bold text-lg">Persons</p>
             <!-- add employee button start -->
-            <button @click="isShowed(i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Employee</button>
+            <button @click="isShowedEmployeeModal()" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-10 py-2">Add New Employee</button>
             <!-- add employee button end -->
         </div>
 
         <!-- Add New Employee button area start -->
-        <div v-if="isVisible">
-            <Addnewemployee @click="isClosed()"/>
+        <div v-if="isVisibleEmployeeModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center">
+            <div class="h-auto z-50">
+                <Addnewemployee @close="isClosedEmployeeModal" class="flex relative bg-stone-200"/>
+            </div>
         </div>
         <!-- Add New Employee button area end -->
 
@@ -68,12 +70,12 @@
                 </table>
                 
                 <!-- assign unit button start -->
-                <button class="border border-sky-300 rounded-sm contrast-more:border-sky-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 hover:bg-sky-500 hover:text-white px-10 py-1 ms-5 mt-5 ease-in duration-200">Assign Units</button>
+                <button @click="isShowedUnitAddModal()" class="border border-sky-300 rounded-sm contrast-more:border-sky-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 hover:bg-sky-500 hover:text-white px-10 py-1 ms-5 mt-5 ease-in duration-200">Assign Units</button>
                 <!-- assign unit button end -->
 
                 <!-- assignItem unit area start -->
-                <div>
-                    <AssignItem  />
+                <div v-if="isVisibleUnitAddModal">
+                    <AssignItem  @closeAssignBtn="isClosedUnitAddModal"/>
                 </div>
                 <!-- assignItem unit area end -->
             </div>
@@ -92,17 +94,27 @@ import AssignItem from '../components/AssignItem.vue'
         },
         data() {
             return {
-                isVisible: false
+                isVisibleEmployeeModal: false,
+                isVisibleUnitAddModal: false
             }
         },
         mounted(){
         },
         methods: {
-            isShowed(){
-                this.isVisible = true
+            // show modals
+            isShowedEmployeeModal(){
+                this.isVisibleEmployeeModal = true
             },
-            isClosed(){
-                this.isVisible = false
+            isShowedUnitAddModal(){
+                this.isVisibleUnitAddModal = true
+            },
+
+            // close modals
+            isClosedEmployeeModal(){
+                this.isVisibleEmployeeModal = false
+            },
+            isClosedUnitAddModal(){
+                this.isVisibleUnitAddModal = false
             },
             assignProduct(){
             }
