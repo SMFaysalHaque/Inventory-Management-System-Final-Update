@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="w-full">
-            <div class="flex justify-between items-center"> A4tech 
+            <div v-for="(singleBrand, i) in productBrand" :key="singleBrand.i" class="flex justify-between items-center"> {{ singleBrand.brand }} 
                 <p>
-                    <button class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
+                    <button @click="minusButton()" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
                         -
                     </button> 
-                        01 
-                    <button class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
+                        <span>{{ counter }}</span>
+                    <button @click="plusButton()" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
                 </p>
@@ -20,8 +20,33 @@
 </template>
 
 <script>
+import Unittypes from '../components/unittypes.vue'
     export default {
-        
+        components: {
+            Unittypes
+        },
+        data() {
+            return {
+                counter: 0,
+                productBrand: []
+            }
+        },
+        mounted () {
+            this.productBrand = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : [];
+        },
+        methods: {
+            minusButton() {
+                if(this.counter <= 0){
+                    return this.counter
+                }
+                else{
+                    return this.counter--
+                }
+            },
+            plusButton(){
+                this.counter++
+            }
+        },
     }
 </script>
 

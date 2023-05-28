@@ -92,7 +92,7 @@ import AssignItem from '../components/AssignItem.vue'
                     email: '',
                     id: '',
                     taken: false,
-                    Products: [
+                    products: [
                         {
                             category: '',
                             brand: '',
@@ -103,6 +103,9 @@ import AssignItem from '../components/AssignItem.vue'
             }
         },
         mounted(){
+            this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
+            console.log("json data:", JSON.parse(localStorage.getItem('setNewProduct')));
+            console.log("aaaaa", this.selectedEmployee.products);
             // this.allEmployeeListIndex = this.allEmployeeList.forEach(function (value, i) {
             //     console.log("array value:", value, "array index:", i);
             // })
@@ -140,6 +143,7 @@ import AssignItem from '../components/AssignItem.vue'
                 // console.log(value);
             },
             assignProduct(){
+                localStorage.setItem('setNewProduct', JSON.stringify(this.selectedEmployee.products))
             }
         }
     }

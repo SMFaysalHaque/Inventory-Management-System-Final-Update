@@ -58,6 +58,7 @@ import Addnewunit from '../components/addnewunit.vue';
             }
         },
         mounted () {
+            this.productCategoryList = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : []
         },
         methods: {
             isShowed() {
@@ -69,7 +70,7 @@ import Addnewunit from '../components/addnewunit.vue';
             setNewProduct(value){
                 console.log(value);
                 this.productCategoryList.push(value)
-                
+                localStorage.setItem('setNewProduct', JSON.stringify(this.productCategoryList))
             }
         },
     }
