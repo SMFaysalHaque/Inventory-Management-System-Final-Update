@@ -21,7 +21,7 @@
             <!-- sidebar start -->
             <div class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[300px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md">
                 <p class="ps-4 py-2 font-semibold">Employee Information</p>
-                <div @click="isShowedEmployeeAllUnits()" v-for="(employee, i) in allEmployeeList" :key="employee.i" class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
+                <div @click="isShowedEmployeeAllUnits(employee, i)" v-for="(employee, i) in allEmployeeList" :key="employee.i" class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
                     <p class="px-2">{{ i + 1 }}</p>
                     <div class="px-2">
                         <p>{{ employee.name }}</p>
@@ -35,11 +35,11 @@
 
             <!-- product unit info start -->
             <div v-if="isVisibleEmployeeAllUnits" class="w-full">
-                <div v-for="(employee, i) in allEmployeeList" :key="employee.i">
-                    <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">{{employee.name}}</p>
-                    <p class="ms-5 pt-4 text-gray-500">E-mail <span class="ps-2 text-sky-500">{{ employee.email }}</span></p>
-                    <p class="ms-5 pt-1 text-gray-500">Mobile <span class="ps-2 text-sky-500">{{ employee.mobile }}</span></p>
-                </div>
+                <!-- <div v-for="(singleEmployee, i) in selectedEmployee" :key="singleEmployee.i"> -->
+                    <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">{{ selectedEmployee.name }}</p>
+                    <p class="ms-5 pt-4 text-gray-500">E-mail <span class="ps-2 text-sky-500">{{ selectedEmployee.email }}</span></p>
+                    <p class="ms-5 pt-1 text-gray-500">Mobile <span class="ps-2 text-sky-500">{{ selectedEmployee.mobile }}</span></p>
+                <!-- </div> -->
                 <table class="table-auto w-[95%] ms-5 mt-5 border-collapse border border-slate-300">
                     <thead>
                         <tr class="h-10 bg-gray-300 border-b-2 border-gray-400">
@@ -85,15 +85,38 @@ import AssignItem from '../components/AssignItem.vue'
                 isVisibleEmployeeAllUnits: false,
                 isVisibleEmployeeModal: false,
                 isVisibleUnitAddModal: false,
-                allEmployeeList: []
+                allEmployeeList: [],
+                selectedEmployee: {
+                    name: '',
+                    mobile: '',
+                    email: '',
+                    id: '',
+                    taken: false,
+                    Products: [
+                        {
+                            category: '',
+                            brand: '',
+                            quantity: 0
+                        }
+                    ]
+                }
             }
         },
         mounted(){
+            // this.allEmployeeListIndex = this.allEmployeeList.forEach(function (value, i) {
+            //     console.log("array value:", value, "array index:", i);
+            // })
         },
         methods: {
             // show all units area
-            isShowedEmployeeAllUnits(){
+            isShowedEmployeeAllUnits(value, i){
                 this.isVisibleEmployeeAllUnits = true
+                // this.selectedEmployee = JSON.parse(JSON.stringify(value))
+                this.selectedEmployee = value
+                console.log(this.selectedEmployee);
+                // console.log("name: ", value);
+                // console.log(i);
+                
             },
             // show modals
             isShowedEmployeeModal(){
@@ -114,7 +137,7 @@ import AssignItem from '../components/AssignItem.vue'
             // set employee list
             setEmployeeInfo(value){
                 this.allEmployeeList.push(value)
-                console.log(value);
+                // console.log(value);
             },
             assignProduct(){
             }

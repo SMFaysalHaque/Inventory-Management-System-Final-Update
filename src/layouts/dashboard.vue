@@ -1,7 +1,7 @@
 <template>
 
     <div class="dashboard-area">
-        <div class="grid grid-cols-2 max-xl:grid-cols-1 w-full bg-gray-100 h-screen p-5 rounded-md my-2.5">
+        <div class="grid grid-cols-2 max-xl:grid-cols-1 w-full bg-gray-100 p-5 rounded-md my-2.5">
             <div class="mx-1">
                 <p class="text-center border border-slate-200 p-2 bg-gray-300">All Units</p>
                 <div class="text-center border border-slate-200 p-2">

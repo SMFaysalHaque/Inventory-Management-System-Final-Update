@@ -43,6 +43,7 @@
         methods: {
             addNewEmployee() {
                 this.$emit('addNewEmployee', this.employeeInfo)
+                this.$emit('close')
             },
             closeModal(){
                 this.$emit('close')
