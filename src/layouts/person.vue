@@ -10,7 +10,7 @@
         <!-- Add New Employee button area start -->
         <div v-if="isVisibleEmployeeModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center">
             <div class="h-auto z-50">
-                <Addnewemployee @close="isClosedEmployeeModal" class="flex relative bg-stone-200"/>
+                <Addnewemployee @addNewEmployee="setEmployeeInfo" @close="isClosedEmployeeModal" class="flex relative bg-stone-200"/>
             </div>
         </div>
         <!-- Add New Employee button area end -->
@@ -21,32 +21,25 @@
             <!-- sidebar start -->
             <div class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[300px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md">
                 <p class="ps-4 py-2 font-semibold">Employee Information</p>
-                <div class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
-                    <p class="px-2">01</p>
+                <div @click="isShowedEmployeeAllUnits()" v-for="(employee, i) in allEmployeeList" :key="employee.i" class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
+                    <p class="px-2">{{ i + 1 }}</p>
                     <div class="px-2">
-                        <p>S. M. Faysal Haque</p>
-                        <p>faysal@gmail.com</p>
-                        <p>Mobile: 0172-2222222</p>
-                        <p>ID: 0001-04-2023</p>
-                    </div>
-                </div>
-                <div class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y">
-                    <p class="px-2">02</p>
-                    <div class="px-2">
-                        <p>Nayeem Hossain</p>
-                        <p>nayeem@gmail.com</p>
-                        <p>Mobile: 0156-6666666</p>
-                        <p>ID: 0002-12-2021</p>
+                        <p>{{ employee.name }}</p>
+                        <p>{{ employee.email }}</p>
+                        <p>Mobile: {{ employee.mobile }}</p>
+                        <p>ID: {{ employee.id }}</p>
                     </div>
                 </div>
             </div>
             <!-- sidebar end -->
 
             <!-- product unit info start -->
-            <div class="w-full">
-                <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">S. M. Faysal Haque</p>
-                <p class="ms-5 pt-4 text-gray-500">E-mail <span class="ps-2 text-sky-500">faysal@gmail.com</span></p>
-                <p class="ms-5 pt-1 text-gray-500">Mobile <span class="ps-2 text-sky-500">0172-2222222</span></p>
+            <div v-if="isVisibleEmployeeAllUnits" class="w-full">
+                <div v-for="(employee, i) in allEmployeeList" :key="employee.i">
+                    <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">{{employee.name}}</p>
+                    <p class="ms-5 pt-4 text-gray-500">E-mail <span class="ps-2 text-sky-500">{{ employee.email }}</span></p>
+                    <p class="ms-5 pt-1 text-gray-500">Mobile <span class="ps-2 text-sky-500">{{ employee.mobile }}</span></p>
+                </div>
                 <table class="table-auto w-[95%] ms-5 mt-5 border-collapse border border-slate-300">
                     <thead>
                         <tr class="h-10 bg-gray-300 border-b-2 border-gray-400">
@@ -56,11 +49,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border border-slate-200 text-center">xyz</td>
-                            <td class="border border-slate-200 text-center">xyz</td>
-                            <td class="border border-slate-200 text-center">xyz</td>
-                        </tr>
                         <tr>
                             <td class="border border-slate-200 text-center">xyz</td>
                             <td class="border border-slate-200 text-center">xyz</td>
@@ -94,13 +82,19 @@ import AssignItem from '../components/AssignItem.vue'
         },
         data() {
             return {
+                isVisibleEmployeeAllUnits: false,
                 isVisibleEmployeeModal: false,
-                isVisibleUnitAddModal: false
+                isVisibleUnitAddModal: false,
+                allEmployeeList: []
             }
         },
         mounted(){
         },
         methods: {
+            // show all units area
+            isShowedEmployeeAllUnits(){
+                this.isVisibleEmployeeAllUnits = true
+            },
             // show modals
             isShowedEmployeeModal(){
                 this.isVisibleEmployeeModal = true
@@ -115,6 +109,12 @@ import AssignItem from '../components/AssignItem.vue'
             },
             isClosedUnitAddModal(){
                 this.isVisibleUnitAddModal = false
+            },
+
+            // set employee list
+            setEmployeeInfo(value){
+                this.allEmployeeList.push(value)
+                console.log(value);
             },
             assignProduct(){
             }
