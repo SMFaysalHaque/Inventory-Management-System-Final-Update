@@ -103,6 +103,8 @@ import AssignItem from '../components/AssignItem.vue'
             }
         },
         mounted(){
+            this.allEmployeeList = JSON.parse(localStorage.getItem('allEmployeeList')) ? JSON.parse(localStorage.getItem('allEmployeeList')) : []
+
             this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
             console.log("json data:", JSON.parse(localStorage.getItem('setNewProduct')));
             console.log("aaaaa", this.selectedEmployee.products);
@@ -114,11 +116,8 @@ import AssignItem from '../components/AssignItem.vue'
             // show all units area
             isShowedEmployeeAllUnits(value, i){
                 this.isVisibleEmployeeAllUnits = true
-                // this.selectedEmployee = JSON.parse(JSON.stringify(value))
                 this.selectedEmployee = value
                 console.log(this.selectedEmployee);
-                // console.log("name: ", value);
-                // console.log(i);
                 
             },
             // show modals
@@ -140,10 +139,10 @@ import AssignItem from '../components/AssignItem.vue'
             // set employee list
             setEmployeeInfo(value){
                 this.allEmployeeList.push(value)
-                // console.log(value);
+                localStorage.setItem('allEmployeeList', JSON.stringify(this.allEmployeeList))
             },
             assignProduct(){
-                localStorage.setItem('setNewProduct', JSON.stringify(this.selectedEmployee.products))
+                
             }
         }
     }

@@ -7,9 +7,9 @@
                     Close
                 </button>
             </div>
-            <div v-for="(singleProduct, i) in products" :key="singleProduct.i" class="">
+            <div v-for="(singleProduct, i) in uniq" :key="singleProduct" class="">
                 <div class="flex justify-between items-center py-1">
-                    <p>{{ singleProduct.category }}</p>
+                    <p>{{ singleProduct }}</p>
                     <button @click="brandProductModal(i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
@@ -33,27 +33,31 @@ import AssignProductQty from './AssignProductQty.vue'
             return {
                 // key: value
                 products: [],
-                isBrandProductVisible: false
+                isBrandProductVisible: false,
+                uniq: []
             }
         },
         mounted () {
             this.products = JSON.parse(localStorage.getItem('setNewProduct'))
-            console.log("bbbbb", this.products);
-            // this.products.forEach(element => {
-            //     element.show = false
-            // });
+            const arrayOfItems = this.products.map((item) => {
+                return item.category
+            })
+            this.uniq = Array.from(new Set(arrayOfItems));
         },
         methods: {
             addModel() {
                 
             },
             closeModal(){
-                this.$emit('closeAssignBtn')
+                // this.$emit('closeAssignBtn')
             },
             brandProductModal(i){
                 this.isBrandProductVisible = true
                 localStorage.setItem('setNewProduct', JSON.stringify(this.products))
                 console.log("xxxx", this.products[i]);
+            },
+            singleProduct(){
+                console.log(this.products);
             }
             
         },
