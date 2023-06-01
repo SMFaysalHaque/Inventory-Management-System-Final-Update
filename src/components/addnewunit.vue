@@ -27,6 +27,7 @@
                     quantity: 0,
                     Taken: 0,
                     available: 0,
+                    isActive: false,
                     employee: {
                         name: '',
                         mobile: '',

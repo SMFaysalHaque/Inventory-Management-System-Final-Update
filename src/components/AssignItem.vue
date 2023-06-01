@@ -9,14 +9,15 @@
             </div>
             <div v-for="(singleProduct, i) in filterProduct" :key="singleProduct" class="">
                 <div class="flex justify-between items-center py-1">
-                    <p>{{ singleProduct }}</p>
-                    <button @click="brandProductModal(singleProduct,i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
+                    <!-- <p>{{ singleProduct.category }}</p> -->
+                    <button @click="brandProductModal(singleProduct.category, i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
                 </div>
-                <div v-if="isBrandProductVisible">
-                <AssignProductQty :selectedItemName="selectedItemName"/>
-            </div>
+                {{ singleProduct.isActive }}
+                <div v-if="singleProduct.isActive">
+                    <AssignProductQty :selectedItemName="selectedItemName"/>
+                </div>
             </div>
             
         </div>
@@ -26,7 +27,7 @@
 <script>
 import AssignProductQty from './AssignProductQty.vue'
     export default {
-        emits: ['closeAssignBtn', ''],
+        emits: ['closeAssignBtn'],
         components: {
             AssignProductQty
         },
@@ -35,19 +36,21 @@ import AssignProductQty from './AssignProductQty.vue'
                 // key: value
                 products: [],
                 filterProduct: [],
-                isBrandProductVisible: false,
                 selectedItemName: ''
                 
             }
         },
         mounted () {
             this.products = JSON.parse(localStorage.getItem('setNewProduct'))
+            // console.log("ALL PRODUCTS: ", this.products);
             // assign button filter
-            const arrayOfItems = this.products.map((item) => {
+            const arrayOfItems = this.products.filter((item) => {
                 return item.category
             })
+            console.log("ARRAY OF ITEMS: ", arrayOfItems);
             this.filterProduct = Array.from(new Set(arrayOfItems));
             console.log('qqqqq: ', this.filterProduct);
+
         },
         methods: {
             addModel() {
@@ -56,17 +59,22 @@ import AssignProductQty from './AssignProductQty.vue'
             closeModal(){
                 this.$emit('closeAssignBtn')
             },
-            brandProductModal(singleProduct,i){
-                console.log("product name",singleProduct)
-                this.selectedItemName = singleProduct
+            brandProductModal(value,i){
+                console.log('vvvv: ', value)
+                console.log("Category:", value, "Index:", i);
+                // console.log("product name",singleProduct)
+                this.selectedItemName = value
                 localStorage.setItem('setNewProduct', JSON.stringify(this.products))
                 // console.log("xxxx", this.products, i);
-                this.isBrandProductVisible = true
+                this.singleProduct.isActive = true
+                console.log("gggg: ", this.singleProduct.isActive, i);
+            },
+            brandShowed(i){
+                console.log("bbbb: ", brandShowed);
             },
             singleProduct(){
                 console.log(this.products);
             }
-            
         },
     }
 </script>

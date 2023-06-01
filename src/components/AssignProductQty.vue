@@ -44,7 +44,7 @@ import Unittypes from '../components/unittypes.vue'
         mounted () {
             this.productBrand = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : [];
             console.log("product brands",this.productBrand)
-            this.brand = []
+            // this.brand = []
             this.productBrand.forEach(obj => {
                 if(this.selectedItemName === obj.category) {
                     this.brand.push(obj)

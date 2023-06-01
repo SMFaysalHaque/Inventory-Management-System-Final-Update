@@ -63,7 +63,7 @@
 
                 <!-- assignItem unit area start -->
                 <div v-if="isVisibleUnitAddModal">
-                    <AssignItem  @closeAssignBtn="isClosedUnitAddModal"/>
+                    <AssignItem @closeAssignBtn="isClosedUnitAddModal"/>
                 </div>
                 <!-- assignItem unit area end -->
             </div>
