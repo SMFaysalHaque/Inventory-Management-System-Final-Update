@@ -14,10 +14,11 @@
                     add
                     </button>
                 </div>
-            </div>
-            <div v-if="isBrandProductVisible">
+                <div v-if="isBrandProductVisible">
                 <AssignProductQty :selectedItemName="selectedItemName"/>
             </div>
+            </div>
+            
         </div>
     </div>
 </template>

@@ -2,12 +2,12 @@
     <div>
         <div class="w-full">
             <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center"> {{ singleBrand.brand }} 
-                <div v-for="(counter, i) in counters" :key="counter">
-                    <button @click="minusButton($event, i)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
+                <div>
+                    <button @click="minusButton(index)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
                         -
                     </button> 
-                        <span>{{ counters }}</span>
-                    <button @click="plusButton($event, i)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
+                        <span>{{ counters[index] }}</span>
+                    <button @click="plusButton(index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
                 </div>
@@ -35,7 +35,7 @@ import Unittypes from '../components/unittypes.vue'
         },
         data() {
             return {
-                counters: [0],
+                counters: [],
                 productBrand: [],
                 brand: [],
                 isVisibleProductBrand: false,
@@ -48,21 +48,28 @@ import Unittypes from '../components/unittypes.vue'
             this.productBrand.forEach(obj => {
                 if(this.selectedItemName === obj.category) {
                     this.brand.push(obj)
+                    console.log('output brand:', obj );
                 }
                 console.log("selected brands", this.brand)
                 });
-                
+            
+            // this.counters.fill(0, 0, this.brand.length);
+            //     console.log("counters op:",this.counters);
+
+            for(let i = 0; i < this.brand.length; i++){
+                this.counters.push(0);
+            }
                 
         },
         methods: {
-            minusButton(type, i) {
-                console.log("++++", type);
+            minusButton(i) {
+                console.log("minus:", );
                 if (this.counters[i] > 0) {
                     this.counters[i] --;
                 }
             },
-            plusButton(type, i){
-                console.log("----", type);
+            plusButton(i){
+                console.log("plus: ", );
                 this.counters[i]++;
             },
             closeProductBrand(i){
