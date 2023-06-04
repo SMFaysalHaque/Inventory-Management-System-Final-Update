@@ -45,14 +45,14 @@
                         <tr class="h-10 bg-gray-300 border-b-2 border-gray-400">
                             <th class="border border-slate-200 w-[35%]">Category</th>
                             <th class="border border-slate-200">Brand</th>
-                            <th class="border border-slate-200">Model</th>
+                            <th class="border border-slate-200">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="border border-slate-200 text-center">xyz</td>
                             <td class="border border-slate-200 text-center">xyz</td>
-                            <td class="border border-slate-200 text-center">xyz</td>
+                            <td class="border border-slate-200 text-center">10</td>
                         </tr>
                     </tbody>
                 </table>
