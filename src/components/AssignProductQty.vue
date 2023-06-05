@@ -27,7 +27,7 @@ import Unittypes from '../components/unittypes.vue'
         components: {
             Unittypes
         },
-        emits: ['showAssignProductQty'],
+        emits: ['close', 'closeModal'],
         props:{
             selectedItemName : {
                 type: String,
@@ -78,8 +78,9 @@ import Unittypes from '../components/unittypes.vue'
                 this.counters[i]++;
             },
             closeProductBrand(value, i){
+                this.$emit('closeModal')
                 console.log('VALUEEEE:', value, 'Indexxxxxxxx:', i);
-                this.brand[i].isActive = false;
+                this.brand[i].isActive = !this.brand[i].isActive;
             }
         },
     }

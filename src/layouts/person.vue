@@ -63,7 +63,7 @@
 
                 <!-- assignItem unit area start -->
                 <div v-if="isVisibleUnitAddModal">
-                    <AssignItem @closeAssignBtn="isClosedUnitAddModal"/>
+                    <AssignItem @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
                 </div>
                 <!-- assignItem unit area end -->
             </div>
@@ -132,7 +132,7 @@ import AssignItem from '../components/AssignItem.vue'
             isClosedEmployeeModal(){
                 this.isVisibleEmployeeModal = false
             },
-            isClosedUnitAddModal(){
+            isClosedUnitAddModal(i){
                 this.isVisibleUnitAddModal = false
             },
 

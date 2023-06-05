@@ -16,7 +16,7 @@
                 </div>
                 <!-- {{ singleProduct.isActive }} -->
                 <div v-if="singleProduct.isActive">
-                    <AssignProductQty :closeCategory="closeModal()" :selectedItemName="selectedItemName"/>
+                    <AssignProductQty @closeModal="closeModal(i)" :selectedItemName="selectedItemName"/>
                 </div>
             </div>
             
@@ -27,7 +27,7 @@
 <script>
 import AssignProductQty from './AssignProductQty.vue'
     export default {
-        emits: ['closeAssignBtn'],
+        emits: ['closeAssignBtn', 'closeModal'],
         components: {
             AssignProductQty
         },
@@ -59,7 +59,8 @@ import AssignProductQty from './AssignProductQty.vue'
             addModel() {
                 
             },
-            closeModal(){
+            closeModal(i){
+                this.$emit('closeModal')
                 this.filterProduct[i]['isActive'] = false
             },
             brandProductModal(value,i){
