@@ -6,9 +6,8 @@
                 <div>
                     <button @click="minusButton(index)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
                         -
-                    </button> 
-                    {{ brand.taken }}
-                        <span><input v-model="brand.taken" type="number" style="display: none;">{{ counters[index] }}</span>
+                    </button>
+                        <span>{{ counters[index] }}</span>
                     <button @click="plusButton(index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
@@ -29,9 +28,9 @@ import Unittypes from '../components/unittypes.vue'
         components: {
             Unittypes
         },
-        emits: ['close', 'closeModal', 'setNewSingleProduct'],
+        emits: ['close', 'closeModal', 'employeeItemMappingUpdated'],
         props:{
-            selectedItemName : {
+            selectedCategoryName : {
                 type: String,
                 default: null
             },
@@ -54,7 +53,7 @@ import Unittypes from '../components/unittypes.vue'
             console.log("BRAAAANNNNNDDDDDD: ", this.brand);
             // this.brand = []
             this.productBrand.forEach(obj => {
-                if(this.selectedItemName === obj.category) {
+                if(this.selectedCategoryName === obj.category) {
                     this.brand.push(obj)
                     console.log('output brand:', obj);
                 }
@@ -80,12 +79,22 @@ import Unittypes from '../components/unittypes.vue'
                 console.log("plus: ", );
                 this.counters[i]++;
             },
-            addAndCloseProductBrand(value, i){
+            addAndCloseProductBrand(brand, i){
                 this.$emit('closeModal')
-                this.$emit('setNewSingleProduct', this.brand)
-                console.log('VALUEEEE:', value, 'Indexxxxxxxx:', i);
                 this.brand[i].isActive = !this.brand[i].isActive;
+                console.log('VALUEEEE:', brand, 'Indexxxxxxxx:', i);
                 console.log("All BRANDSSSSSSSSS: ", this.brand);
+                let employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
+                // TODO: {employee: abc, itemCategory: Mouse, itemBrand: A4tech, itemQuantity: 5}
+                const assignedItem = {
+                    itemCategory: this.selectedCategoryName,
+                    itemBrand: brand,
+                    itemQuantity: this.counters[i]
+                }
+                // TODO: check duplicate and update employeeItemMapping 
+                employeeItemMapping.push(assignedItem)
+                localStorage.setItem('employeeItemMapping', JSON.stringify(employeeItemMapping))
+                this.$emit('employeeItemMappingUpdated')
             },
             addSingleProduct(){
                 

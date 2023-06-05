@@ -49,10 +49,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in employeeAssignProduct" :key="item">
-                            <td class="border border-slate-200 text-center">{{ item.category }}</td>
-                            <td class="border border-slate-200 text-center">{{ item.brand }}</td>
-                            <td class="border border-slate-200 text-center">{{ item.taken }}</td>
+                        <tr v-for="item in employeeItemMapping" :key="item">
+                            <td class="border border-slate-200 text-center">{{ item.itemCategory }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.itemBrand }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.itemQuantity }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -63,7 +63,7 @@
 
                 <!-- assignItem unit area start -->
                 <div v-if="isVisibleUnitAddModal">
-                    <AssignItem @setNewSingleProduct="assignProduct(value)" @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
+                    <AssignItem @employeeItemMappingUpdated="getEmployeeItemMapping()" @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
                 </div>
                 <!-- assignItem unit area end -->
             </div>
@@ -86,7 +86,7 @@ import AssignItem from '../components/AssignItem.vue'
                 isVisibleEmployeeModal: false,
                 isVisibleUnitAddModal: false,
                 allEmployeeList: [],
-                employeeAssignProduct: [],
+                employeeItemMapping: [],
                 selectedEmployee: {
                     name: '',
                     mobile: '',
@@ -109,6 +109,7 @@ import AssignItem from '../components/AssignItem.vue'
 
             this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
             console.log("JSON DATA:", this.selectedEmployee.products);
+            this.getEmployeeItemMapping()
             // console.log("aaaaa", this.selectedEmployee.products);
             // console.log("MMMMMM: ", this.employeeAssignProduct);
 
@@ -173,9 +174,8 @@ import AssignItem from '../components/AssignItem.vue'
                 this.allEmployeeList.push(value)
                 localStorage.setItem('allEmployeeList', JSON.stringify(this.allEmployeeList))
             },
-            assignProduct(value, i){
-                this.employeeAssignProduct.push(value)
-                console.log("HALUMMMMMMM: ", this.employeeAssignProduct);
+            getEmployeeItemMapping(){
+                this.employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
             }
         }
     }

@@ -16,7 +16,7 @@
                 </div>
                 <!-- {{ singleProduct.isActive }} -->
                 <div v-if="singleProduct.isActive">
-                    <AssignProductQty @setNewSingleProduct="addNewSingleProduct()" @closeModal="closeModal(i)" :selectedItemName="selectedItemName"/>
+                    <AssignProductQty @employeeItemMappingUpdated="this.$emit('employeeItemMappingUpdated')" @closeModal="closeModal(i)" :selectedCategoryName="selectedCategoryName"/>
                 </div>
             </div>
             
@@ -27,7 +27,7 @@
 <script>
 import AssignProductQty from './AssignProductQty.vue'
     export default {
-        emits: ['closeAssignBtn', 'closeModal', 'setNewSingleProduct'],
+        emits: ['closeAssignBtn', 'closeModal', 'employeeItemMappingUpdated'],
         components: {
             AssignProductQty
         },
@@ -37,7 +37,7 @@ import AssignProductQty from './AssignProductQty.vue'
                 products: [],
                 filterProduct: [],
                 uniqueProductCategory: {},
-                selectedItemName: '',
+                selectedCategoryName: '',
                 // modalOpen: false
                 
             }
@@ -66,8 +66,8 @@ import AssignProductQty from './AssignProductQty.vue'
             brandProductModal(value,i){
                 // value.isActive = true
                 this.filterProduct[i]['isActive'] = true
-                // this.selectedItemName = value.category
-                this.selectedItemName = value
+                // this.selectedCategoryName = value.category
+                this.selectedCategoryName = value
             },
             brandShowed(i){
                 console.log("bbbb: ", brandShowed);
@@ -76,7 +76,6 @@ import AssignProductQty from './AssignProductQty.vue'
                 console.log(this.products);
             },
             addNewSingleProduct(){
-                this.$emit('setNewSingleProduct', this.products)
                 console.log("OOOOHHHHHH MY goooooodddd: ", this.products);
             }
         },
