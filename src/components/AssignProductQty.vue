@@ -1,18 +1,20 @@
 <template>
     <div>
         <div class="w-full">
-            <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center my-1"> {{ singleBrand.brand }} 
+            <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center my-1"> 
+                <p> {{ singleBrand.brand }} </p>
                 <div>
                     <button @click="minusButton(index)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
                         -
                     </button> 
-                        <span>{{ counters[index] }}</span>
+                    {{ brand.taken }}
+                        <span><input v-model="brand.taken" type="number" style="display: none;">{{ counters[index] }}</span>
                     <button @click="plusButton(index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
                 </div>
                 <div>
-                    <button @click="closeProductBrand(singleBrand.brand, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
+                    <button @click="addAndCloseProductBrand(singleBrand.brand, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
                 </div>
@@ -27,7 +29,7 @@ import Unittypes from '../components/unittypes.vue'
         components: {
             Unittypes
         },
-        emits: ['close', 'closeModal'],
+        emits: ['close', 'closeModal', 'setNewSingleProduct'],
         props:{
             selectedItemName : {
                 type: String,
@@ -47,8 +49,9 @@ import Unittypes from '../components/unittypes.vue'
             }
         },
         mounted () {
-            this.productBrand = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : [];
+            this.productBrand = JSON.parse(localStorage.getItem('setNewProduct'));
             console.log("product brands",this.productBrand)
+            console.log("BRAAAANNNNNDDDDDD: ", this.brand);
             // this.brand = []
             this.productBrand.forEach(obj => {
                 if(this.selectedItemName === obj.category) {
@@ -68,7 +71,7 @@ import Unittypes from '../components/unittypes.vue'
         },
         methods: {
             minusButton(i) {
-                console.log("minus:", );
+                console.log("minus:", this.brand);
                 if (this.counters[i] > 0) {
                     this.counters[i] --;
                 }
@@ -77,10 +80,15 @@ import Unittypes from '../components/unittypes.vue'
                 console.log("plus: ", );
                 this.counters[i]++;
             },
-            closeProductBrand(value, i){
+            addAndCloseProductBrand(value, i){
                 this.$emit('closeModal')
+                this.$emit('setNewSingleProduct', this.brand)
                 console.log('VALUEEEE:', value, 'Indexxxxxxxx:', i);
                 this.brand[i].isActive = !this.brand[i].isActive;
+                console.log("All BRANDSSSSSSSSS: ", this.brand);
+            },
+            addSingleProduct(){
+                
             }
         },
     }

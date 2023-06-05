@@ -49,10 +49,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border border-slate-200 text-center">xyz</td>
-                            <td class="border border-slate-200 text-center">xyz</td>
-                            <td class="border border-slate-200 text-center">10</td>
+                        <tr v-for="item in employeeAssignProduct" :key="item">
+                            <td class="border border-slate-200 text-center">{{ item.category }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.brand }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.taken }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -63,7 +63,7 @@
 
                 <!-- assignItem unit area start -->
                 <div v-if="isVisibleUnitAddModal">
-                    <AssignItem @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
+                    <AssignItem @setNewSingleProduct="assignProduct(value)" @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
                 </div>
                 <!-- assignItem unit area end -->
             </div>
@@ -86,6 +86,7 @@ import AssignItem from '../components/AssignItem.vue'
                 isVisibleEmployeeModal: false,
                 isVisibleUnitAddModal: false,
                 allEmployeeList: [],
+                employeeAssignProduct: [],
                 selectedEmployee: {
                     name: '',
                     mobile: '',
@@ -104,13 +105,44 @@ import AssignItem from '../components/AssignItem.vue'
         },
         mounted(){
             this.allEmployeeList = JSON.parse(localStorage.getItem('allEmployeeList')) ? JSON.parse(localStorage.getItem('allEmployeeList')) : []
+            console.log("ALL EMPLOYEE LIST: ", this.allEmployeeList);
 
             this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
-            console.log("json data:", JSON.parse(localStorage.getItem('setNewProduct')));
-            console.log("aaaaa", this.selectedEmployee.products);
-            // this.allEmployeeListIndex = this.allEmployeeList.forEach(function (value, i) {
-            //     console.log("array value:", value, "array index:", i);
-            // })
+            console.log("JSON DATA:", this.selectedEmployee.products);
+            // console.log("aaaaa", this.selectedEmployee.products);
+            // console.log("MMMMMM: ", this.employeeAssignProduct);
+
+            //get type quantity                                                 
+            // const allProducts = localStorage.getItem('setNewProduct')
+            // let brandQuantity = 0
+            // for (let index = 0; index < allProducts.length; index++) {
+            //     const product = allProducts[index];
+            //     if (product.brand === brand) {
+            //         brandQuantity = product.quantity
+            //     }
+            // }
+            // // count number of taken units
+            // let takenUnits = 0
+            // for (let index = 0; index < this.personInfos.length; index++) {
+            //     const person = this.personInfos[index];
+            //     takenUnits = takenUnits + person.device[type]
+            // }
+            // // if product available assign it to person else give alert
+            // if (takenUnits <= typeQuantity){
+            
+            //     const currentPerson = this.personInfos[index]
+            //     if(!currentPerson.device[type]){
+            //         currentPerson.device[type] = 1;
+            //     }
+            //     else{
+            //         currentPerson.device[type] = currentPerson.device[type] + 1
+            //     }
+            //     console.log("currentPerson", currentPerson);
+            //     localStorage.setItem('allEmployee', JSON.stringify(this.personInfos))
+            // }
+            // else{
+            //     alert(`${type} is not available`)
+            // }
         },
         methods: {
             // show all units area
@@ -141,8 +173,9 @@ import AssignItem from '../components/AssignItem.vue'
                 this.allEmployeeList.push(value)
                 localStorage.setItem('allEmployeeList', JSON.stringify(this.allEmployeeList))
             },
-            assignProduct(){
-                
+            assignProduct(value, i){
+                this.employeeAssignProduct.push(value)
+                console.log("HALUMMMMMMM: ", this.employeeAssignProduct);
             }
         }
     }

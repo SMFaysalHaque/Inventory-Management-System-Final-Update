@@ -16,7 +16,7 @@
                 </div>
                 <!-- {{ singleProduct.isActive }} -->
                 <div v-if="singleProduct.isActive">
-                    <AssignProductQty @closeModal="closeModal(i)" :selectedItemName="selectedItemName"/>
+                    <AssignProductQty @setNewSingleProduct="addNewSingleProduct()" @closeModal="closeModal(i)" :selectedItemName="selectedItemName"/>
                 </div>
             </div>
             
@@ -27,7 +27,7 @@
 <script>
 import AssignProductQty from './AssignProductQty.vue'
     export default {
-        emits: ['closeAssignBtn', 'closeModal'],
+        emits: ['closeAssignBtn', 'closeModal', 'setNewSingleProduct'],
         components: {
             AssignProductQty
         },
@@ -74,6 +74,10 @@ import AssignProductQty from './AssignProductQty.vue'
             },
             singleProduct(){
                 console.log(this.products);
+            },
+            addNewSingleProduct(){
+                this.$emit('setNewSingleProduct', this.products)
+                console.log("OOOOHHHHHH MY goooooodddd: ", this.products);
             }
         },
     }
