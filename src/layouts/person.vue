@@ -112,45 +112,13 @@ import AssignItem from '../components/AssignItem.vue'
             this.getEmployeeItemMapping()
             // console.log("aaaaa", this.selectedEmployee.products);
             // console.log("MMMMMM: ", this.employeeAssignProduct);
-
-            //get type quantity                                                 
-            // const allProducts = localStorage.getItem('setNewProduct')
-            // let brandQuantity = 0
-            // for (let index = 0; index < allProducts.length; index++) {
-            //     const product = allProducts[index];
-            //     if (product.brand === brand) {
-            //         brandQuantity = product.quantity
-            //     }
-            // }
-            // // count number of taken units
-            // let takenUnits = 0
-            // for (let index = 0; index < this.personInfos.length; index++) {
-            //     const person = this.personInfos[index];
-            //     takenUnits = takenUnits + person.device[type]
-            // }
-            // // if product available assign it to person else give alert
-            // if (takenUnits <= typeQuantity){
-            
-            //     const currentPerson = this.personInfos[index]
-            //     if(!currentPerson.device[type]){
-            //         currentPerson.device[type] = 1;
-            //     }
-            //     else{
-            //         currentPerson.device[type] = currentPerson.device[type] + 1
-            //     }
-            //     console.log("currentPerson", currentPerson);
-            //     localStorage.setItem('allEmployee', JSON.stringify(this.personInfos))
-            // }
-            // else{
-            //     alert(`${type} is not available`)
-            // }
         },
         methods: {
             // show all units area
             isShowedEmployeeAllUnits(value, i){
                 this.isVisibleEmployeeAllUnits = true
                 this.selectedEmployee = value
-                console.log(this.selectedEmployee);
+                console.log("SELECTED EMPLOYEE:", this.selectedEmployee);
                 
             },
             // show modals

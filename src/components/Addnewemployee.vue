@@ -26,6 +26,7 @@
                     mobile: '',
                     email: '',
                     id: '',
+                    isActive: false,
                     taken: false,
                     Products: [
                         {

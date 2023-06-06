@@ -13,7 +13,7 @@
                     </button>
                 </div>
                 <div>
-                    <button @click="addAndCloseProductBrand(singleBrand.brand, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
+                    <button @allEmployeeList="addAndCloseProductBrand(singleBrand.brand, index)" @click="addAndCloseProductBrand(singleBrand.brand, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
                 </div>
@@ -37,6 +37,10 @@ import Unittypes from '../components/unittypes.vue'
             closeCategory : {
                 type: Boolean,
                 default: false
+            },
+            allEmployeeList : {
+                type: Array,
+                default: null
             }
         },
         data() {
@@ -44,6 +48,7 @@ import Unittypes from '../components/unittypes.vue'
                 counters: [],
                 productBrand: [],
                 brand: [],
+                // allEmployee: [],
                 isVisibleProductBrand: false,
             }
         },
@@ -82,18 +87,29 @@ import Unittypes from '../components/unittypes.vue'
             addAndCloseProductBrand(brand, i){
                 this.$emit('closeModal')
                 this.brand[i].isActive = !this.brand[i].isActive;
-                console.log('VALUEEEE:', brand, 'Indexxxxxxxx:', i);
-                console.log("All BRANDSSSSSSSSS: ", this.brand);
+                // props localStorage
+                let allEmployee = JSON.parse(localStorage.getItem('allEmployeeList')) ? JSON.parse(localStorage.getItem('allEmployeeList')) : []
+                console.log("ALL EMPLOYEE999:", allEmployee);
+                for(let i = 0; i < allEmployee.length; i++){
+                    let employee = allEmployee[i].email
+                    console.log("ALL EMPLOYEE222:", employee);
+                }
+                //parse assignedItem:
                 let employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
+                // console.log("Employee Item Mapping111: ", employeeItemMapping);
                 // TODO: {employee: abc, itemCategory: Mouse, itemBrand: A4tech, itemQuantity: 5}
+                
                 const assignedItem = {
+                    employeeEmail: allEmployee[i].email,
                     itemCategory: this.selectedCategoryName,
                     itemBrand: brand,
                     itemQuantity: this.counters[i]
                 }
+
                 // TODO: check duplicate and update employeeItemMapping 
                 employeeItemMapping.push(assignedItem)
                 localStorage.setItem('employeeItemMapping', JSON.stringify(employeeItemMapping))
+                console.log("Employee Item Mapping222: ", JSON.stringify(employeeItemMapping));
                 this.$emit('employeeItemMappingUpdated')
             },
             addSingleProduct(){
