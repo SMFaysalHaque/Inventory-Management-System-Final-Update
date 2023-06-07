@@ -45,6 +45,7 @@
                         <tr class="h-10 bg-gray-300 border-b-2 border-gray-400">
                             <th class="border border-slate-200 w-[35%]">Category</th>
                             <th class="border border-slate-200">Brand</th>
+                            <th class="border border-slate-200">Model</th>
                             <th class="border border-slate-200">Quantity</th>
                         </tr>
                     </thead>
@@ -52,6 +53,7 @@
                         <tr v-for="item in employeeItemMapping.filter(element => element.employeeEmail === selectedEmployee.email)" :key="item">
                             <td class="border border-slate-200 text-center">{{ item.itemCategory }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemBrand }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.itemModel }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemQuantity }}</td>
                         </tr>
                     </tbody>

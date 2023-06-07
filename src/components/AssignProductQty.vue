@@ -3,6 +3,7 @@
         <div class="w-full">
             <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center my-1"> 
                 <p> {{ singleBrand.brand }} </p>
+                <p>{{ singleBrand.model }}</p>
                 <div>
                     <button @click="minusButton(index)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
                         -
@@ -87,12 +88,12 @@ import Unittypes from '../components/unittypes.vue'
             addAndCloseProductBrand(brand, i){
                 this.$emit('closeModal')
                 this.brand[i].isActive = !this.brand[i].isActive;
+                console.log("BRAANNNNDDD:", brand);
                 
                 //parse assignedItem:
                 let employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
                 // console.log("Employee Item Mapping111: ", employeeItemMapping);
 
-                // TODO: {employee: abc, itemCategory: Mouse, itemBrand: A4tech, itemQuantity: 5}
                 if (this.selectedEmployee === null){
                     console.log("No selected employee.");
                     return
@@ -101,6 +102,7 @@ import Unittypes from '../components/unittypes.vue'
                     employeeEmail: this.selectedEmployee.email,
                     itemCategory: this.selectedCategoryName,
                     itemBrand: brand,
+                    // itemModel: this.singleBrand.model,
                     itemQuantity: this.counters[i]
                 }
 
