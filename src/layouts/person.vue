@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in employeeItemMapping" :key="item">
+                        <tr v-for="item in employeeItemMapping.filter(element => element.employeeEmail === selectedEmployee.email)" :key="item">
                             <td class="border border-slate-200 text-center">{{ item.itemCategory }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemBrand }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemQuantity }}</td>
@@ -63,7 +63,7 @@
 
                 <!-- assignItem unit area start -->
                 <div v-if="isVisibleUnitAddModal">
-                    <AssignItem @employeeItemMappingUpdated="getEmployeeItemMapping()" @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
+                    <AssignItem :selectedEmployee="selectedEmployee" @employeeItemMappingUpdated="getEmployeeItemMapping()" @closeModal="isClosedUnitAddModal(i)" @closeAssignBtn="isClosedUnitAddModal"/>
                 </div>
                 <!-- assignItem unit area end -->
             </div>

@@ -16,7 +16,7 @@
                 </div>
                 <!-- {{ singleProduct.isActive }} -->
                 <div v-if="singleProduct.isActive">
-                    <AssignProductQty :allEmployeeList="allEmployeeList" @employeeItemMappingUpdated="this.$emit('employeeItemMappingUpdated')" @closeModal="closeModal(i)" :selectedCategoryName="selectedCategoryName"/>
+                    <AssignProductQty :selectedEmployee="selectedEmployee" @employeeItemMappingUpdated="this.$emit('employeeItemMappingUpdated')" @closeModal="closeModal(i)" :selectedCategoryName="selectedCategoryName"/>
                 </div>
             </div>
             
@@ -28,7 +28,7 @@
 import AssignProductQty from './AssignProductQty.vue'
     export default {
         emits: ['closeAssignBtn', 'closeModal', 'employeeItemMappingUpdated'],
-        props: ['allEmployeeList'],
+        props: ['selectedEmployee'],
         components: {
             AssignProductQty
         },
