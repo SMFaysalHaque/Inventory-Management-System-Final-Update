@@ -14,7 +14,7 @@
                     </button>
                 </div>
                 <div>
-                    <button @click="addAndCloseProductBrand(singleBrand.brand, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
+                    <button @click="addAndCloseProductBrand(singleBrand.brand, singleBrand.model, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
                 </div>
@@ -85,7 +85,7 @@ import Unittypes from '../components/unittypes.vue'
                 console.log("plus: ", );
                 this.counters[i]++;
             },
-            addAndCloseProductBrand(brand, i){
+            addAndCloseProductBrand(brand, model, i){
                 this.$emit('closeModal')
                 this.brand[i].isActive = !this.brand[i].isActive;
                 console.log("BRAANNNNDDD:", brand);
@@ -98,11 +98,13 @@ import Unittypes from '../components/unittypes.vue'
                     console.log("No selected employee.");
                     return
                 }
+                console.log(this.selectedEmployee);
                 const assignedItem = {
+                    employeeName: this.selectedEmployee.name,
                     employeeEmail: this.selectedEmployee.email,
                     itemCategory: this.selectedCategoryName,
                     itemBrand: brand,
-                    // itemModel: this.singleBrand.model,
+                    itemModel: model,
                     itemQuantity: this.counters[i]
                 }
 

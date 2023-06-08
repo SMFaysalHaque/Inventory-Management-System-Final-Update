@@ -112,8 +112,6 @@ import AssignItem from '../components/AssignItem.vue'
             this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
             console.log("JSON DATA:", this.selectedEmployee.products);
             this.getEmployeeItemMapping()
-            // console.log("aaaaa", this.selectedEmployee.products);
-            // console.log("MMMMMM: ", this.employeeAssignProduct);
         },
         methods: {
             // show all units area

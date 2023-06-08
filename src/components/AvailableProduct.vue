@@ -8,21 +8,15 @@
                         <th class="border border-slate-200">Category</th>
                         <th class="border border-slate-200">Brand</th>
                         <th class="border border-slate-200">Model</th>
-                        <th class="border border-slate-200">Quantity</th>
+                        <th class="border border-slate-200">Available Quantity</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
-                        <td class="border border-slate-200 text-center">xyz</td>
+                    <tr v-for="availableSingleProduct in setNewProduct" :key="availableSingleProduct">
+                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.category }}</td>
+                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.brand }}</td>
+                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.model }}</td>
+                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.countAvailableProduct }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -43,25 +37,30 @@
         mounted () {
             // get localStorage
             this.setNewProduct = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : []
-            console.log("xxx", this.setNewProduct);
+            console.log("Set New Product:", this.setNewProduct);
             this.employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
-            console.log(this.employeeItemMapping);
+            console.log("Employee Item Mapping", this.employeeItemMapping);
 
             // relation with this.setNewProduct and this.employeeItemMapping
-            // let abc = []
-            // const myFunction = (item, index) => {
-            //     this.availableProduct.push(item.brand)
-            // }
-            // this.setNewProduct.forEach(myFunction)
-            // console.log(this.availableProduct);
-            let availableProductQty = this.employeeItemMapping.forEach((item, index) => {
-                // console.log("zzzz: ", item.brand);
-                console.log("zzzz: ", item);
-                for(let i = 0; i < this.setNewProduct.length; i++){
-                    
-                }
+            this.setNewProduct.forEach((item) => {
+                let reserveModel = item.model;
+                let reserveQuantity = item.quantity;
+                console.log("Model:", reserveModel, "Reserve Quantity:", reserveQuantity);
             })
-            console.log(availableProductQty);
+            this.setNewProduct.forEach((el1, index1) => {
+                let reserveBrand = el1.brand;
+                let reserveModel = el1.model;
+                let totalTaken = 0;
+                // console.log("Reserve Model:", reserveBrand, "||", "Reserve Model:", reserveModel);
+                this.employeeItemMapping.filter((el2, index2) => {
+                    if(reserveModel === el2.itemModel){
+                        // console.log(el2.itemQuantity);
+                        totalTaken = totalTaken + el2.itemQuantity
+                        console.log(totalTaken);
+                    }
+                })
+                el1.countAvailableProduct = el1.quantity - totalTaken
+            })
         },
         methods: {
             name() {

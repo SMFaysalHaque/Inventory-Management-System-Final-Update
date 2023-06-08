@@ -9,7 +9,7 @@
                 <p class="flex flex-nowrap">Category: <input v-model="productCategory.category" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                 <p class="flex flex-nowrap">Brand: <input v-model="productCategory.brand" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                 <p class="flex flex-nowrap">Model: <input v-model="productCategory.model" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
-                <p class="flex flex-nowrap">Quantity: <input v-model="productCategory.quantity" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
+                <p class="flex flex-nowrap">Quantity: <input v-model.number="productCategory.quantity" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                 <button @click="addProduct"  class="border border-sky-600 bg-sky-600 text-white hover:bg-sky-500 rounded-sm px-8 py-1">Add New Product</button>
             </div>
         </div>
@@ -25,8 +25,6 @@
                     category: '',
                     brand: '',
                     quantity: 0,
-                    Taken: 0,
-                    available: 0,
                     isActive: false,
                     employee: {
                         name: '',
