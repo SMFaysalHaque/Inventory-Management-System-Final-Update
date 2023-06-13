@@ -9,7 +9,7 @@
                         -
                     </button>
                         <span>{{ counters[index] }}</span>
-                    <button @click="plusButton(index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
+                    <button @click="plusButton(singleBrand.quantity, index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
                 </div>
@@ -49,25 +49,18 @@ import Unittypes from '../components/unittypes.vue'
                 counters: [],
                 productBrand: [],
                 brand: [],
-                // allEmployee: [],
                 isVisibleProductBrand: false,
             }
         },
         mounted () {
             this.productBrand = JSON.parse(localStorage.getItem('setNewProduct'));
-            console.log("product brands",this.productBrand)
-            console.log("BRAAAANNNNNDDDDDD: ", this.brand);
-            // this.brand = []
+            console.log("PRODUCT BRAND:", this.productBrand);
+            console.log("BRAND:", this.brand);
             this.productBrand.forEach(obj => {
                 if(this.selectedCategoryName === obj.category) {
                     this.brand.push(obj)
-                    console.log('output brand:', obj);
                 }
-                console.log("selected brands", this.brand)
                 });
-            
-            // this.counters.fill(0, 0, this.brand.length);
-            //     console.log("counters op:",this.counters);
 
             for(let i = 0; i < this.brand.length; i++){
                 this.counters.push(0);
@@ -76,29 +69,27 @@ import Unittypes from '../components/unittypes.vue'
         },
         methods: {
             minusButton(i) {
-                console.log("minus:", this.brand);
                 if (this.counters[i] > 0) {
                     this.counters[i] --;
                 }
             },
-            plusButton(i){
-                console.log("plus: ", );
-                this.counters[i]++;
+            plusButton(value, i){
+                if(this.counters[i] < value){
+                    this.counters[i]++
+                }
+                
             },
             addAndCloseProductBrand(brand, model, i){
                 this.$emit('closeModal')
                 this.brand[i].isActive = !this.brand[i].isActive;
-                console.log("BRAANNNNDDD:", brand);
                 
                 //parse assignedItem:
                 let employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
-                // console.log("Employee Item Mapping111: ", employeeItemMapping);
 
                 if (this.selectedEmployee === null){
                     console.log("No selected employee.");
                     return
                 }
-                console.log(this.selectedEmployee);
                 const assignedItem = {
                     employeeName: this.selectedEmployee.name,
                     employeeEmail: this.selectedEmployee.email,
@@ -106,16 +97,10 @@ import Unittypes from '../components/unittypes.vue'
                     itemBrand: brand,
                     itemModel: model,
                     itemQuantity: this.counters[i]
-                }
-
-                // TODO: check duplicate and update employeeItemMapping 
+                } 
                 employeeItemMapping.push(assignedItem)
                 localStorage.setItem('employeeItemMapping', JSON.stringify(employeeItemMapping))
-                console.log("Employee Item Mapping222: ", JSON.stringify(employeeItemMapping));
                 this.$emit('employeeItemMappingUpdated')
-            },
-            addSingleProduct(){
-                
             }
         },
     }

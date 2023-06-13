@@ -40,10 +40,6 @@
             addProduct() {
                 this.$emit('setNewProduct', this.productCategory);
                 this.$emit('closeUnitBtn')
-                for (let index = 0; index < array.length; index++) {
-                    const element = array[index];
-                    
-                }
             },
             closeModal(){
                 this.$emit('closeUnitBtn')

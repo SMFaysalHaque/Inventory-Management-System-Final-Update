@@ -33,8 +33,7 @@
         data() {
             return {
                 // key: value
-                takenProduct: [],
-                sortTakenProduct: []
+                takenProduct: []
             }
         },
         mounted () {
