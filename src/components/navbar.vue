@@ -12,6 +12,8 @@
         <li class="px-5 py-2 hover:bg-gray-400 hover:text-white rounded-sm text-lg ease-in duration-300"><a href="/unittypes/">Unit Types</a></li>
         <li class="px-5 py-2 hover:bg-gray-400 hover:text-white rounded-sm text-lg ease-in duration-300"><a href="/AvailableProduct/">Available Product</a></li>
         <li class="px-5 py-2 hover:bg-gray-400 hover:text-white rounded-sm text-lg ease-in duration-300"><a href="/TakenProduct/">Taken Product</a></li>
+        <li class="px-5 py-2 hover:bg-gray-400 hover:text-white rounded-sm text-lg ease-in duration-300"><a href="/category/">Category</a></li>
+
       </ul>
     </div>
     <div class="">
