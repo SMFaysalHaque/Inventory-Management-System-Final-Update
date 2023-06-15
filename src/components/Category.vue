@@ -10,7 +10,7 @@
         <!-- Add New Category button area start -->
         <div v-if="isVisible" class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center">
             <div class="h-auto z-50">
-                <div class="w-full border border-stone-200 mx-auto p-5">
+                <div class="w-full bg-slate-300 border border-stone-200 mx-auto p-5">
                     <div class="flex justify-between items-center ps-5">
                         <p class="font-bold text-lg">Add New Category</p>
                         <button @click="isClosed()" class="border border-red-600 bg-red-600 text-white hover:bg-red-500 rounded-sm px-5 py-1">Close</button>
@@ -44,19 +44,19 @@
             <!-- add category brand info area start  -->
             <div v-if="isVisibleBrand" class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center">
                 <div class="h-auto z-50">
-                    <div class="w-full border border-stone-200 mx-auto p-5">
+                    <div class="w-full bg-slate-300 border border-stone-200 mx-auto p-5">
                         <div class="flex justify-between items-center ps-5">
                             <p class="font-bold text-lg">Add New Brand</p>
                             <button @click="isClosedBrand()" class="border border-red-600 bg-red-600 text-white hover:bg-red-500 rounded-sm px-5 py-1">Close</button>
                         </div>
-                        <div v-for="(item, i) in productCategory.items" :key="item" class="mx-auto py-5 px-10 space-y-3 w-full">
+                        <div class="mx-auto py-5 px-10 space-y-3 w-full">
                             <p class="flex flex-nowrap">Brand:
-                            <input v-model="item.itemBrand" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
+                            <input v-model="singleItem.itemBrand" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                             <p class="flex flex-nowrap">Model:
-                            <input v-model="item.itemModel" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
+                            <input v-model="singleItem.itemModel" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                             <p class="flex flex-nowrap">Quantity:
-                            <input v-model="item.itemQuantity" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
-                            <button @click="addBrand(item.itemBrand)" class="border border-sky-600 bg-sky-600 text-white hover:bg-sky-500 rounded-sm px-8 py-1">Add Brand</button>
+                            <input v-model="singleItem.itemQuantity" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
+                            <button @click="addBrand(singleItem.itemBrand)" class="border border-sky-600 bg-sky-600 text-white hover:bg-sky-500 rounded-sm px-8 py-1">Add Brand</button>
                         </div>
                     </div>
                 </div>
@@ -65,33 +65,25 @@
 
             <!-- product unit info start -->
             <div v-if="isVisibleCategoryDetails" class="w-full">
-                    <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">{{ allProductsCategories.categoryName }}</p>
+                    <p class="ps-5 py-2 font-semibold border-y border-gray-300 rounded-tr-md">{{ selectedCategoryName }}</p>
                 <table class="table-auto w-[95%] ms-5 mt-5 border-collapse border border-slate-300">
                     <thead>
                         <tr class="h-10 bg-gray-300 border-b-2 border-gray-400">
+                            <th class="border border-slate-200">Category</th>
                             <th class="border border-slate-200">Brand</th>
                             <th class="border border-slate-200">Model</th>
                             <th class="border border-slate-200">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border border-slate-200 text-center">Brand</td>
-                            <td class="border border-slate-200 text-center">Model</td>
-                            <td class="border border-slate-200 text-center">Quantity</td>
+                        <tr v-for="item in productCategoryAllItems.filter(element => element.itemCategory === selectedCategoryName)" :key="item">
+                            <td class="border border-slate-200 text-center">{{ item.itemCategory }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.itemBrand }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.itemModel }}</td>
+                            <td class="border border-slate-200 text-center">{{ item.itemQuantity }}</td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <!-- assign unit button start -->
-                <button class="border border-sky-300 rounded-sm contrast-more:border-sky-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 hover:bg-sky-500 hover:text-white px-10 py-1 ms-5 mt-5 ease-in duration-200">Assign Units</button>
-                <!-- assign unit button end -->
-
-                <!-- assignItem unit area start -->
-                <!-- <div>
-                    <AssignItem />
-                </div> -->
-                <!-- assignItem unit area end -->
             </div>
             <!-- product unit info end -->
         </div>
@@ -106,21 +98,24 @@
                 isVisibleCategoryDetails: false,
                 isVisible: false,
                 isVisibleBrand: false,
+                selectedCategoryName: "",
+                totalCategoryQuantity: 0,
+                totalItemQuantity: 0,
+                productCategoryAllItems: [],
                 allProductsCategories: [],
                 singleProductCategory: [], //for deep clone
-                x: [],
-                brandInfo: [],
+                brandInfo: [], //for deep clone
                 productCategory: {
                     categoryName: '',
                     categoryQuantity: 0,
-                    items: [
-                        {
-                        itemBrand: '',
-                        itemModel: '',
-                        itemQuantity: 0
-                    }
-                    ]
+                    items: []
                 },
+                singleItem: {
+                    itemCategory: '',
+                    itemBrand: '',
+                    itemModel: '',
+                    itemQuantity: ''
+                }
                 // selectedProductCategory: {
 
                 // }
@@ -130,6 +125,20 @@
             // get localStorage
             this.allProductsCategories = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
             console.log("SINGLE PRODUCT CATEGORY LIST: ", this.allProductsCategories);
+            this.productCategoryAllItems = JSON.parse(localStorage.getItem('productCategoryAllItems')) ? JSON.parse(localStorage.getItem('productCategoryAllItems')) : []
+            console.log("PRODUCT CATEGORY ALL ITEMS:", this.productCategoryAllItems);
+
+            // calculation of category quantity
+            // this.allProductsCategories.forEach(el1 => {
+            //     let el1CategoryName = el1.categoryName
+            //     this.productCategoryAllItems.filter(el2 => {
+            //         if(el1CategoryName === el2.itemCategory){
+            //             this.totalCategoryQuantity = this.totalCategoryQuantity + el2.itemQuantity
+            //         }
+            //     })
+            //     el1.categoryQuantity = this.totalCategoryQuantity
+            // })
+
         },
         methods: {
             isOpen() {
@@ -137,7 +146,7 @@
             },
             isOpenCategoryDetails(value, i){
                 this.isVisibleCategoryDetails = true
-                this.allProductsCategories.categoryName = value
+                this.selectedCategoryName = value
             },
             isOpenBrand(){
                 this.isVisibleBrand = true
@@ -152,10 +161,9 @@
                 console.log(value);
                 this.isVisible = false
                 this.singleProductCategory = JSON.parse(JSON.stringify(this.productCategory)) //deep clone
-                console.log("All SINGLE product category:", this.singleProductCategory);
                 this.allProductsCategories.push(this.singleProductCategory)
-                console.log("All product category:", this.allProductsCategories);
                 
+                // empty input area:
                 this.productCategory.categoryName = ""; // empty modal category name.
 
                 // set localStorage
@@ -164,10 +172,20 @@
             addBrand(value){
                 console.log(value);
                 this.isVisibleBrand = false
-                this.brandInfo = this.productCategory.items
-                console.log("Brand Info:", this.brandInfo);
-                this.x.push(this.brandInfo)
-                console.log("Print X:", this.x);
+                this.singleItem.itemCategory = this.selectedCategoryName
+                this.brandInfo = JSON.parse(JSON.stringify(this.singleItem)) //deep clone
+                this.productCategoryAllItems = this.productCategory.items
+                this.productCategoryAllItems.push(this.brandInfo)
+                console.log(this.productCategoryAllItems);
+
+                // empty input area:
+                this.singleItem.itemCategory = ""; // empty modal itemCategory name.
+                this.singleItem.itemBrand = ""; // empty modal itemBrand name.
+                this.singleItem.itemModel = ""; // empty modal itemModel name.
+                this.singleItem.itemQuantity = ""; // empty modal itemQuantity name.
+
+                // set localStorage
+                localStorage.setItem('productCategoryAllItems', JSON.stringify(this.productCategoryAllItems))
             },
         },
     }
