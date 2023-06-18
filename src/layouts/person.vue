@@ -78,9 +78,10 @@
 <script>
 import Addnewemployee from '../components/Addnewemployee.vue'
 import AssignItem from '../components/AssignItem.vue'
+import Category from '../components/Category.vue'
     export default {
         components: {
-            AssignItem, Addnewemployee
+            AssignItem, Addnewemployee, Category
         },
         data() {
             return {
@@ -106,6 +107,7 @@ import AssignItem from '../components/AssignItem.vue'
             }
         },
         mounted(){
+            // get localStorage
             this.allEmployeeList = JSON.parse(localStorage.getItem('allEmployeeList')) ? JSON.parse(localStorage.getItem('allEmployeeList')) : []
             console.log("ALL EMPLOYEE LIST: ", this.allEmployeeList);
 

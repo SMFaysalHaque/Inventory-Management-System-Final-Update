@@ -1,20 +1,20 @@
 <template>
     <div>
         <div class="w-full">
-            <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center my-1"> 
-                <p> {{ singleBrand.brand }} </p>
-                <p>{{ singleBrand.model }}</p>
+            <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center my-1">
+                <p> {{ singleBrand.itemBrand }} </p>
+                <p>{{ singleBrand.itemModel }}</p>
                 <div>
                     <button @click="minusButton(index)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
                         -
                     </button>
                         <span>{{ counters[index] }}</span>
-                    <button @click="plusButton(singleBrand.quantity, index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
+                    <button @click="plusButton(singleBrand.itemQuantity, index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
                 </div>
                 <div>
-                    <button @click="addAndCloseProductBrand(singleBrand.brand, singleBrand.model, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
+                    <button @click="addAndCloseProductBrand(singleBrand.itemBrand, singleBrand.itemModel, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
                 </div>
@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import Unittypes from '../components/unittypes.vue'
+import Category from '../components/Category.vue'
     export default {
         components: {
-            Unittypes
+            Category
         },
         emits: ['close', 'closeModal', 'employeeItemMappingUpdated'],
         props:{
@@ -47,20 +47,27 @@ import Unittypes from '../components/unittypes.vue'
         data() {
             return {
                 counters: [],
-                productBrand: [],
+                allItems: [],
                 brand: [],
                 isVisibleProductBrand: false,
             }
         },
         mounted () {
-            this.productBrand = JSON.parse(localStorage.getItem('setNewProduct'));
-            console.log("PRODUCT BRAND:", this.productBrand);
-            console.log("BRAND:", this.brand);
-            this.productBrand.forEach(obj => {
-                if(this.selectedCategoryName === obj.category) {
-                    this.brand.push(obj)
+            this.allItems = JSON.parse(localStorage.getItem('allProductsCategories'));
+            console.log("ALL ITEMS:", this.allItems);
+            let element
+            for (let index = 0; index < this.allItems.length; index++) {
+                for(let j = 0; j < this.allItems[index].items.length; j++){
+                    element = this.allItems[index].items[j].itemCategory;
+                    if(this.selectedCategoryName === element){
+                        let allBrand = this.allItems[index].items[j]
+                        this.brand.push(allBrand)
+                    }
+                    else{
+                        console.log("what????????");
+                    }
                 }
-                });
+            }
 
             for(let i = 0; i < this.brand.length; i++){
                 this.counters.push(0);
@@ -80,6 +87,8 @@ import Unittypes from '../components/unittypes.vue'
                 
             },
             addAndCloseProductBrand(brand, model, i){
+                console.log(brand);
+                console.log(model);
                 this.$emit('closeModal')
                 this.brand[i].isActive = !this.brand[i].isActive;
                 

@@ -9,8 +9,8 @@
             </div>
             <div v-for="(singleProduct, i) in filterProduct" :key="singleProduct" class="">
                 <div class="flex justify-between items-center py-1">
-                    <p>{{ singleProduct.category }}</p>
-                    <button @click="brandProductModal(singleProduct.category, i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
+                    <p>{{ singleProduct.categoryName }}</p>
+                    <button @click="brandProductModal(singleProduct.categoryName, i)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
                     add
                     </button>
                 </div>
@@ -44,15 +44,19 @@ import AssignProductQty from './AssignProductQty.vue'
             }
         },
         mounted () {
-            this.products = JSON.parse(localStorage.getItem('setNewProduct'))
+            this.products = JSON.parse(localStorage.getItem('allProductsCategories'))
             // assign button filter area start
             for (let i in this.products) {
-                let objCategory = this.products[i]['category'];
-                this.uniqueProductCategory[objCategory] = this.products[i];
+                for(let j in this.products[i].items){
+                    let objCategory = this.products[i].items[j]['itemCategory'];
+                    this.uniqueProductCategory[objCategory] = this.products[i];
+                }
+                
             }
             // Loop to push unique object into array
             for (let i in this.uniqueProductCategory) {
                 this.filterProduct.push(this.uniqueProductCategory[i]);
+                console.log("YYY",this.filterProduct);
             }
             // assign button filter area end
         },
@@ -65,19 +69,11 @@ import AssignProductQty from './AssignProductQty.vue'
                 this.filterProduct[i]['isActive'] = false
             },
             brandProductModal(value,i){
+                console.log(value);
                 // value.isActive = true
                 this.filterProduct[i]['isActive'] = true
                 // this.selectedCategoryName = value.category
                 this.selectedCategoryName = value
-            },
-            brandShowed(i){
-                console.log("bbbb: ", brandShowed);
-            },
-            singleProduct(){
-                console.log(this.products);
-            },
-            addNewSingleProduct(){
-                console.log("OOOOHHHHHH MY goooooodddd: ", this.products);
             }
         },
     }
