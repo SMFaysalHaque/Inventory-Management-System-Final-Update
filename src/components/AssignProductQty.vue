@@ -9,7 +9,7 @@
                         -
                     </button>
                         <span>{{ counters[index] }}</span>
-                    <button @click="plusButton(singleBrand.itemQuantity, index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
+                    <button @click="plusButton(singleBrand.itemQuantity, singleBrand.itemBrand, index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
                         +
                     </button>
                 </div>
@@ -49,6 +49,7 @@ import Category from '../components/Category.vue'
                 counters: [],
                 allItems: [],
                 brand: [],
+                employeeItemMapping: [],
                 isVisibleProductBrand: false,
             }
         },
@@ -62,6 +63,7 @@ import Category from '../components/Category.vue'
                     if(this.selectedCategoryName === element){
                         let allBrand = this.allItems[index].items[j]
                         this.brand.push(allBrand)
+                        console.log("BRAND:", this.brand);
                     }
                     else{
                         console.log("what????????");
@@ -80,7 +82,7 @@ import Category from '../components/Category.vue'
                     this.counters[i] --;
                 }
             },
-            plusButton(value, i){
+            plusButton(value, brand, i){
                 if(this.counters[i] < value){
                     this.counters[i]++
                 }

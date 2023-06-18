@@ -12,11 +12,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="availableSingleProduct in availableProduct" :key="availableSingleProduct">
-                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.category }}</td>
-                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.brand }}</td>
-                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.model }}</td>
-                        <td class="border border-slate-200 text-center">{{ availableSingleProduct.countModelAvailableProduct }}</td>
+                    <tr v-for="x in eachProduct" :key="x">
+                        <td class="border border-slate-200 text-center">{{ x.itemCategory }}</td>
+                        <td class="border border-slate-200 text-center">{{ x.itemBrand }}</td>
+                        <td class="border border-slate-200 text-center">{{ x.itemModel }}</td>
+                        <td class="border border-slate-200 text-center">{{ x.countModelAvailableProduct }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -30,26 +30,39 @@
             return {
                 // key: value
                 employeeItemMapping: [],
-                availableProduct: []
+                availableProduct: [],
+                eachProduct: []
             }
         },
         mounted () {
             // get localStorage
-            this.availableProduct = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : []
+            this.availableProduct = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
             console.log("Available Product:", this.availableProduct);
             this.employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
+            console.log("Employee Mapping:", this.employeeItemMapping);
+
+            for(let i = 0; i < this.availableProduct.length; i++){
+                for(let j = 0; j < this.availableProduct[i].items.length; j++){
+                    let element = this.availableProduct[i].items[j]
+                    console.log("XXX", element);
+                    this.eachProduct.push(element)
+                    console.log("TTTTHHHH:", this.eachProduct);
+                }
+            }
 
             // relation with this.availableProduct and this.employeeItemMapping
-            this.availableProduct.forEach((el1, index1) => {
-                let reserveModel = el1.model;
+            this.eachProduct.forEach((el1, index1) => {
+                let reserveModel = el1.itemModel;
                 let totalTaken = 0;
-
                 this.employeeItemMapping.filter((el2, index2) => {
                     if(reserveModel === el2.itemModel){
                         totalTaken = totalTaken + el2.itemQuantity
                     }
                 })
-                el1.countModelAvailableProduct = el1.quantity - totalTaken
+                el1.countModelAvailableProduct = el1.itemQuantity - totalTaken
+                console.log(typeof el1.countModelAvailableProduct);
+                console.log(typeof el1.countModelAvailableProduct);
+                console.log(typeof el1.countModelAvailableProduct);
             })
         },
         methods: {

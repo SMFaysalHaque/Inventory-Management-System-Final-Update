@@ -36,7 +36,6 @@
                             <thead>
                                 <tr>
                                     <th class="border border-slate-300 w-80 py-2 bg-blue-100">Category</th>
-                                    <th class="border border-slate-300 w-80 py-2 bg-blue-100">Brand</th>
                                     <th class="border border-slate-300 w-80 py-2 bg-blue-100">Total Quantity</th>
                                     <th class="border border-slate-300 w-64 py-2 bg-blue-100"><a href="/AvailableProduct/">Available</a></th>
                                     <th class="border border-slate-300 w-64 py-2 bg-blue-100"><a href="/TakenProduct/">Taken</a></th>
@@ -44,11 +43,10 @@
                             </thead>
                             <tbody>
                                 <tr v-for="singleProductSummary in allProductsSummary" :key="singleProductSummary">
-                                    <td class="border border-slate-300 text-center py-3">{{ singleProductSummary.category }}</td>
-                                    <td class="border border-slate-300 text-center py-3">{{ singleProductSummary.brand }}</td>
-                                    <td class="border border-slate-300 text-center py-3">{{ singleProductSummary.quantity }}</td>
-                                    <td class="border border-slate-300 text-center py-3"><a href="/AvailableProduct/">{{ singleProductSummary.available }}</a></td>
-                                    <td class="border border-slate-300 text-center py-3"><a href="/TakenProduct/">{{ singleProductSummary.Taken }}</a></td>
+                                    <td class="border border-slate-300 text-center py-3">{{ singleProductSummary.categoryName }}</td>
+                                    <td class="border border-slate-300 text-center py-3">{{ singleProductSummary.categoryQuantity }}</td>
+                                    <td class="border border-slate-300 text-center py-3"><a href="/AvailableProduct/">{{ singleProductSummary.totalAvailableQuantity }}</a></td>
+                                    <td class="border border-slate-300 text-center py-3"><a href="/TakenProduct/">{{ singleProductSummary.totalTakenQuantity }}</a></td>
                                 </tr>
                             </tbody>
                     </table>
@@ -73,6 +71,7 @@ export default {
             employeesAssignUnits: [],
             allProductsSummary: [],
             uniqueArray: [],
+            eachProduct: [],
             uniqueObject: {}
         }
     },
@@ -80,23 +79,53 @@ export default {
         // get localStorage
         this.employeesAssignUnits = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
         console.log("employeesAssignUnits:", this.employeesAssignUnits);
-        this.allProductsSummary = JSON.parse(localStorage.getItem('setNewProduct')) ? JSON.parse(localStorage.getItem('setNewProduct')) : []
+        this.allProductsSummary = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
         console.log("allProductsSummary:", this.allProductsSummary);
+
+        // for(let i = 0; i < this.allProductsSummary.length; i++){
+        //         for(let j = 0; j < this.allProductsSummary[i].items.length; j++){
+        //             console.log("www:", this.allProductsSummary[i].categoryName);
+        //             if(this.allProductsSummary[i].categoryName === this.allProductsSummary[i].items[j].itemCategory){
+                        
+        //                 console.log("PPP:", this.allProductsSummary[i].items[j].itemCategory);
+        //                 let element = this.allProductsSummary[i].items[j].itemBrand
+        //             // console.log("XXX", element);
+        //             this.eachProduct.push(element)
+        //             // console.log("TTTTHHHH:", this.eachProduct);
+        //             }
+                    
+        //         }
+        //     }
 
         // relation with this.allProductsSummary and this.employeeItemMapping
         this.allProductsSummary.forEach((el1, index1) => {
-                let reserveModel = el1.model;
+                let reserveCategory = el1.categoryName;
+                let totalQuantity = 0;
+                let totalTaken = 0;
+
+                this.allProductsSummary[index1].items.filter((el2, index2) => {
+                    if(reserveCategory === el2.itemCategory){
+                        totalQuantity = totalQuantity + el2.itemQuantity
+                    }
+                })
+                el1.categoryQuantity = totalQuantity
+            })
+
+            this.allProductsSummary.forEach((el1, index1) => {
+                let reserveCategory = el1.categoryName;
+                let allQuantity = el1.categoryQuantity;
                 let totalTaken = 0;
 
                 this.employeesAssignUnits.filter((el2, index2) => {
-                    if(reserveModel === el2.itemModel){
+                    if(reserveCategory === el2.itemCategory){
                         totalTaken = totalTaken + el2.itemQuantity
+                        // totalQuantity = totalQuantity + el2.itemQuantity
                     }
                 })
-                el1.Taken = totalTaken
-                el1.available = el1.quantity - totalTaken
+                el1.totalTakenQuantity = totalTaken
+                el1.totalAvailableQuantity = allQuantity - totalTaken
+                // el1.categoryQuantity = totalQuantity
             })
-        
         },
     methods: {
         
