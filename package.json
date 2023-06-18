@@ -17,6 +17,7 @@
     "astro": "^2.3.2",
     "flowbite": "^1.6.5",
     "nanostores": "^0.8.1",
+    "uuid": "^9.0.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {

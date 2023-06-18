@@ -55,7 +55,7 @@
                             <p class="flex flex-nowrap">Model:
                             <input v-model="singleItem.itemModel" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                             <p class="flex flex-nowrap">Quantity:
-                            <input v-model="singleItem.itemQuantity" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
+                            <input v-model.number="singleItem.itemQuantity" class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full" type="text" name="" id=""></p>
                             <button @click="addBrand(singleItem.itemBrand)" class="border border-sky-600 bg-sky-600 text-white hover:bg-sky-500 rounded-sm px-8 py-1">Add Brand</button>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in productCategoryAllItems.filter(element => element.itemCategory === selectedCategoryName)" :key="item">
+                        <tr v-for="item in selectedCategoryItems" :key="item">
                             <td class="border border-slate-200 text-center">{{ item.itemCategory }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemBrand }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemModel }}</td>
@@ -92,6 +92,8 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
+
     export default {
         data() {
             return {
@@ -101,10 +103,10 @@
                 selectedCategoryName: "",
                 totalCategoryQuantity: 0,
                 totalItemQuantity: 0,
-                productCategoryAllItems: [],
                 allProductsCategories: [],
                 singleProductCategory: [], //for deep clone
                 brandInfo: [], //for deep clone
+                selectedCategoryItems: [],
                 productCategory: {
                     categoryName: '',
                     categoryQuantity: 0,
@@ -112,9 +114,10 @@
                 },
                 singleItem: {
                     itemCategory: '',
+                    itemId: '',
                     itemBrand: '',
                     itemModel: '',
-                    itemQuantity: ''
+                    itemQuantity: 0
                 }
                 // selectedProductCategory: {
 
@@ -124,21 +127,9 @@
         mounted () {
             // get localStorage
             this.allProductsCategories = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
-            console.log("SINGLE PRODUCT CATEGORY LIST: ", this.allProductsCategories);
-            this.productCategoryAllItems = JSON.parse(localStorage.getItem('productCategoryAllItems')) ? JSON.parse(localStorage.getItem('productCategoryAllItems')) : []
-            console.log("PRODUCT CATEGORY ALL ITEMS:", this.productCategoryAllItems);
+            console.log("ALL PRODUCT CATEGORY LIST: ", this.allProductsCategories);
 
-            // calculation of category quantity
-            // this.allProductsCategories.forEach(el1 => {
-            //     let el1CategoryName = el1.categoryName
-            //     this.productCategoryAllItems.filter(el2 => {
-            //         if(el1CategoryName === el2.itemCategory){
-            //             this.totalCategoryQuantity = this.totalCategoryQuantity + el2.itemQuantity
-            //         }
-            //     })
-            //     el1.categoryQuantity = this.totalCategoryQuantity
-            // })
-
+            
         },
         methods: {
             isOpen() {
@@ -147,6 +138,7 @@
             isOpenCategoryDetails(value, i){
                 this.isVisibleCategoryDetails = true
                 this.selectedCategoryName = value
+                this.updateSelectedCategoryItems()
             },
             isOpenBrand(){
                 this.isVisibleBrand = true
@@ -170,23 +162,35 @@
                 localStorage.setItem('allProductsCategories', JSON.stringify(this.allProductsCategories))
             },
             addBrand(value){
-                console.log(value);
                 this.isVisibleBrand = false
                 this.singleItem.itemCategory = this.selectedCategoryName
+                this.singleItem.itemId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
                 this.brandInfo = JSON.parse(JSON.stringify(this.singleItem)) //deep clone
-                this.productCategoryAllItems = this.productCategory.items
-                this.productCategoryAllItems.push(this.brandInfo)
-                console.log(this.productCategoryAllItems);
+                // this.brandInfo.itemQuantity = Number(this.brandInfo.itemQuantity)
+
+                this.allProductsCategories = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
+
+                for(let i = 0; i < this.allProductsCategories.length; i++){
+                    if (this.allProductsCategories[i].categoryName === this.selectedCategoryName){
+                        this.allProductsCategories[i].items.push(this.brandInfo)
+                    }
+                }
+
+                // set localStorage
+                localStorage.setItem('allProductsCategories', JSON.stringify(this.allProductsCategories))
+
+                this.updateSelectedCategoryItems()
 
                 // empty input area:
                 this.singleItem.itemCategory = ""; // empty modal itemCategory name.
+                this.singleItem.itemId = ""; // empty modal itemId name.
                 this.singleItem.itemBrand = ""; // empty modal itemBrand name.
                 this.singleItem.itemModel = ""; // empty modal itemModel name.
                 this.singleItem.itemQuantity = ""; // empty modal itemQuantity name.
-
-                // set localStorage
-                localStorage.setItem('productCategoryAllItems', JSON.stringify(this.productCategoryAllItems))
             },
+            updateSelectedCategoryItems(){
+                this.selectedCategoryItems = this.allProductsCategories.filter(element => element.categoryName === this.selectedCategoryName)[0].items
+            }
         },
     }
 </script>
