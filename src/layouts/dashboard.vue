@@ -57,14 +57,13 @@
 </template>
 
 <script>
-import Unittypes from '../components/unittypes.vue'
 import Persons from '../layouts/person.vue'
 import TakenProduct from '../components/TakenProduct.vue'
 import AvailableProduct from '../components/AvailableProduct.vue'
 import AssignItem from '../components/AssignItem.vue'
 export default {
     components: {
-        Unittypes, Persons, TakenProduct, AvailableProduct, AssignItem
+        Persons, TakenProduct, AvailableProduct, AssignItem
     },
     data() {
         return {
@@ -78,32 +77,14 @@ export default {
     mounted () {
         // get localStorage
         this.employeesAssignUnits = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
-        console.log("employeesAssignUnits:", this.employeesAssignUnits);
         this.allProductsSummary = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
-        console.log("allProductsSummary:", this.allProductsSummary);
-
-        // for(let i = 0; i < this.allProductsSummary.length; i++){
-        //         for(let j = 0; j < this.allProductsSummary[i].items.length; j++){
-        //             console.log("www:", this.allProductsSummary[i].categoryName);
-        //             if(this.allProductsSummary[i].categoryName === this.allProductsSummary[i].items[j].itemCategory){
-                        
-        //                 console.log("PPP:", this.allProductsSummary[i].items[j].itemCategory);
-        //                 let element = this.allProductsSummary[i].items[j].itemBrand
-        //             // console.log("XXX", element);
-        //             this.eachProduct.push(element)
-        //             // console.log("TTTTHHHH:", this.eachProduct);
-        //             }
-                    
-        //         }
-        //     }
 
         // relation with this.allProductsSummary and this.employeeItemMapping
         this.allProductsSummary.forEach((el1, index1) => {
                 let reserveCategory = el1.categoryName;
                 let totalQuantity = 0;
-                let totalTaken = 0;
 
-                this.allProductsSummary[index1].items.filter((el2, index2) => {
+                this.allProductsSummary[index1].items.filter(el2 => {
                     if(reserveCategory === el2.itemCategory){
                         totalQuantity = totalQuantity + el2.itemQuantity
                     }
@@ -111,20 +92,18 @@ export default {
                 el1.categoryQuantity = totalQuantity
             })
 
-            this.allProductsSummary.forEach((el1, index1) => {
+            this.allProductsSummary.forEach(el1 => {
                 let reserveCategory = el1.categoryName;
                 let allQuantity = el1.categoryQuantity;
                 let totalTaken = 0;
 
-                this.employeesAssignUnits.filter((el2, index2) => {
+                this.employeesAssignUnits.filter(el2 => {
                     if(reserveCategory === el2.itemCategory){
                         totalTaken = totalTaken + el2.itemQuantity
-                        // totalQuantity = totalQuantity + el2.itemQuantity
                     }
                 })
                 el1.totalTakenQuantity = totalTaken
                 el1.totalAvailableQuantity = allQuantity - totalTaken
-                // el1.categoryQuantity = totalQuantity
             })
         },
     methods: {

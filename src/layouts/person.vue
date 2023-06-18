@@ -109,10 +109,8 @@ import Category from '../components/Category.vue'
         mounted(){
             // get localStorage
             this.allEmployeeList = JSON.parse(localStorage.getItem('allEmployeeList')) ? JSON.parse(localStorage.getItem('allEmployeeList')) : []
-            console.log("ALL EMPLOYEE LIST: ", this.allEmployeeList);
 
-            this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
-            console.log("JSON DATA:", this.selectedEmployee.products);
+            // this.selectedEmployee.products = JSON.parse(localStorage.getItem('setNewProduct'))
             this.getEmployeeItemMapping()
         },
         methods: {
@@ -120,7 +118,6 @@ import Category from '../components/Category.vue'
             isShowedEmployeeAllUnits(value, i){
                 this.isVisibleEmployeeAllUnits = true
                 this.selectedEmployee = value
-                console.log("SELECTED EMPLOYEE:", this.selectedEmployee);
                 
             },
             // show modals

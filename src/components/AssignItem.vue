@@ -14,7 +14,6 @@
                     add
                     </button>
                 </div>
-                <!-- {{ singleProduct.isActive }} -->
                 <div v-if="singleProduct.isActive">
                     <AssignProductQty :selectedEmployee="selectedEmployee" @employeeItemMappingUpdated="this.$emit('employeeItemMappingUpdated')" @closeModal="closeModal(i)" :selectedCategoryName="selectedCategoryName"/>
                 </div>
@@ -34,12 +33,10 @@ import AssignProductQty from './AssignProductQty.vue'
         },
         data() {
             return {
-                // key: value
                 products: [],
                 filterProduct: [],
                 uniqueProductCategory: {},
                 selectedCategoryName: '',
-                // modalOpen: false
                 
             }
         },
@@ -56,7 +53,6 @@ import AssignProductQty from './AssignProductQty.vue'
             // Loop to push unique object into array
             for (let i in this.uniqueProductCategory) {
                 this.filterProduct.push(this.uniqueProductCategory[i]);
-                console.log("YYY",this.filterProduct);
             }
             // assign button filter area end
         },

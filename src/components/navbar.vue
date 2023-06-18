@@ -24,19 +24,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-    }
-  },
-    methods: {
-      name() {
-      }
-
-    },
-    mounted () {
-      // console.log(this.counterValue);
-
-    },
 }
 </script>
 

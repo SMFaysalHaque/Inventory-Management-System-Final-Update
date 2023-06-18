@@ -127,7 +127,6 @@ import { v4 as uuidv4 } from 'uuid';
         mounted () {
             // get localStorage
             this.allProductsCategories = JSON.parse(localStorage.getItem('allProductsCategories')) ? JSON.parse(localStorage.getItem('allProductsCategories')) : []
-            console.log("ALL PRODUCT CATEGORY LIST: ", this.allProductsCategories);
 
             
         },

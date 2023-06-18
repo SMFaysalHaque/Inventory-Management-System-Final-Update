@@ -55,7 +55,6 @@ import Category from '../components/Category.vue'
         },
         mounted () {
             this.allItems = JSON.parse(localStorage.getItem('allProductsCategories'));
-            console.log("ALL ITEMS:", this.allItems);
             let element
             for (let index = 0; index < this.allItems.length; index++) {
                 for(let j = 0; j < this.allItems[index].items.length; j++){
@@ -63,7 +62,6 @@ import Category from '../components/Category.vue'
                     if(this.selectedCategoryName === element){
                         let allBrand = this.allItems[index].items[j]
                         this.brand.push(allBrand)
-                        console.log("BRAND:", this.brand);
                     }
                     else{
                         console.log("what????????");
@@ -89,8 +87,6 @@ import Category from '../components/Category.vue'
                 
             },
             addAndCloseProductBrand(brand, model, i){
-                console.log(brand);
-                console.log(model);
                 this.$emit('closeModal')
                 this.brand[i].isActive = !this.brand[i].isActive;
                 

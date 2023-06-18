@@ -39,7 +39,6 @@
         mounted () {
             // get localStorage:
             this.takenProduct = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
-            console.log(this.takenProduct);
 
         },
     }

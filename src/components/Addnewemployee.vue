@@ -38,15 +38,11 @@
                 },
             }
         },
-        mounted () {
-            // this.employeeInfo = JSON.parse(localStorage.getItem('employeeInfo'));
-        },
         methods: {
             addNewEmployee() {
                 this.$emit('addNewEmployee', this.employeeInfo)
                 this.$emit('close')
                 console.log('employeeInfo:', this.employeeInfo);
-                // localStorage.setItem('employeeInfo', JSON.stringify(this.employeeInfo))
             },
             closeModal(){
                 this.$emit('close')
