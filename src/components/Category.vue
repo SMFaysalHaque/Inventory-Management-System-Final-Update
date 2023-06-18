@@ -76,11 +76,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in selectedCategoryItems" :key="item">
+                        <tr v-for="item in selectedCategoryItems" :key="item" class="hover:bg-slate-200 group">
                             <td class="border border-slate-200 text-center">{{ item.itemCategory }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemBrand }}</td>
                             <td class="border border-slate-200 text-center">{{ item.itemModel }}</td>
-                            <td class="border border-slate-200 text-center">{{ item.itemQuantity }}</td>
+                            <td class="border border-slate-200 text-center">
+                                <p class="inline h-full">
+                                    {{ item.itemQuantity }}
+                                </p>
+                                <span class="invisible group-hover:visible float-right me-3">
+                                    <button class="text-white bg-blue-700 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-3 py-1 my-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        Edit
+                                    </button>
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
