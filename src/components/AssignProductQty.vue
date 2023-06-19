@@ -1,21 +1,46 @@
 <template>
     <div>
         <div class="w-full">
-            <div v-for="(singleBrand, index) in brand" :key="singleBrand" class="flex justify-between items-center my-1">
-                <p> {{ singleBrand.itemBrand }} </p>
+            <div
+                v-for="(singleBrand, index) in brand"
+                :key="singleBrand"
+                class="flex justify-between items-center my-1"
+            >
+                <p>{{ singleBrand.itemBrand }}</p>
                 <p>{{ singleBrand.itemModel }}</p>
                 <div>
-                    <button @click="minusButton(index)" class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200">
+                    <button
+                        @click="minusButton(index)"
+                        class="border border-gray-500 px-3 py-0 me-2 hover:bg-stone-300 ease-in duration-200"
+                    >
                         -
                     </button>
-                        <span>{{ counters[index] }}</span>
-                    <button @click="plusButton(singleBrand.itemQuantity, singleBrand.itemBrand, index)" class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200">
+                    <span>{{ counters[index] }}</span>
+                    <button
+                        @click="
+                            plusButton(
+                                singleBrand.itemQuantity,
+                                singleBrand.itemBrand,
+                                index
+                            )
+                        "
+                        class="border border-gray-500 px-3 py-0 ms-2 hover:bg-gray-300 ease-in duration-200"
+                    >
                         +
                     </button>
                 </div>
                 <div>
-                    <button @click="addAndCloseProductBrand(singleBrand.itemBrand, singleBrand.itemModel, index)" class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2">
-                    add
+                    <button
+                        @click="
+                            addAndCloseProductBrand(
+                                singleBrand.itemBrand,
+                                singleBrand.itemModel,
+                                index
+                            )
+                        "
+                        class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2"
+                    >
+                        add
                     </button>
                 </div>
             </div>
@@ -24,95 +49,99 @@
 </template>
 
 <script>
-import Category from '../components/Category.vue'
-    export default {
-        components: {
-            Category
+import Category from "../components/Category.vue";
+export default {
+    components: {
+        Category,
+    },
+    emits: ["close", "closeModal", "employeeItemMappingUpdated"],
+    props: {
+        selectedCategoryName: {
+            type: String,
+            default: null,
         },
-        emits: ['close', 'closeModal', 'employeeItemMappingUpdated'],
-        props:{
-            selectedCategoryName : {
-                type: String,
-                default: null
-            },
-            closeCategory : {
-                type: Boolean,
-                default: false
-            },
-            selectedEmployee : {
-                type: Object,
-                default: null
-            }
+        closeCategory: {
+            type: Boolean,
+            default: false,
         },
-        data() {
-            return {
-                counters: [],
-                allItems: [],
-                brand: [],
-                employeeItemMapping: [],
-                isVisibleProductBrand: false,
-            }
+        selectedEmployee: {
+            type: Object,
+            default: null,
         },
-        mounted () {
-            this.allItems = JSON.parse(localStorage.getItem('allProductsCategories'));
-            let element
-            for (let index = 0; index < this.allItems.length; index++) {
-                for(let j = 0; j < this.allItems[index].items.length; j++){
-                    element = this.allItems[index].items[j].itemCategory;
-                    if(this.selectedCategoryName === element){
-                        let allBrand = this.allItems[index].items[j]
-                        this.brand.push(allBrand)
-                    }
-                    else{
-                        console.log("what????????");
-                    }
+    },
+    data() {
+        return {
+            counters: [],
+            allItems: [],
+            brand: [],
+            employeeItemMapping: [],
+            isVisibleProductBrand: false,
+        };
+    },
+    mounted() {
+        this.allItems = JSON.parse(
+            localStorage.getItem("allProductsCategories")
+        );
+        let element;
+        for (let index = 0; index < this.allItems.length; index++) {
+            for (let j = 0; j < this.allItems[index].items.length; j++) {
+                element = this.allItems[index].items[j].itemCategory;
+                if (this.selectedCategoryName === element) {
+                    let allBrand = this.allItems[index].items[j];
+                    this.brand.push(allBrand);
+                } else {
+                    console.log("what????????");
                 }
             }
+        }
 
-            for(let i = 0; i < this.brand.length; i++){
-                this.counters.push(0);
+        for (let i = 0; i < this.brand.length; i++) {
+            this.counters.push(0);
+        }
+    },
+    methods: {
+        minusButton(i) {
+            if (this.counters[i] > 0) {
+                this.counters[i]--;
             }
-                
         },
-        methods: {
-            minusButton(i) {
-                if (this.counters[i] > 0) {
-                    this.counters[i] --;
-                }
-            },
-            plusButton(value, brand, i){
-                if(this.counters[i] < value){
-                    this.counters[i]++
-                }
-                
-            },
-            addAndCloseProductBrand(brand, model, i){
-                this.$emit('closeModal')
-                this.brand[i].isActive = !this.brand[i].isActive;
-                
-                //parse assignedItem:
-                let employeeItemMapping = JSON.parse(localStorage.getItem('employeeItemMapping')) ? JSON.parse(localStorage.getItem('employeeItemMapping')) : []
+        plusButton(value, brand, i) {
+            if (this.counters[i] < value) {
+                this.counters[i]++;
+            }
+        },
+        addAndCloseProductBrand(brand, model, i) {
+            this.$emit("closeModal");
+            this.brand[i].isActive = !this.brand[i].isActive;
 
-                if (this.selectedEmployee === null){
-                    console.log("No selected employee.");
-                    return
-                }
-                const assignedItem = {
-                    employeeName: this.selectedEmployee.name,
-                    employeeEmail: this.selectedEmployee.email,
-                    itemCategory: this.selectedCategoryName,
-                    itemBrand: brand,
-                    itemModel: model,
-                    itemQuantity: this.counters[i]
-                } 
-                employeeItemMapping.push(assignedItem)
-                localStorage.setItem('employeeItemMapping', JSON.stringify(employeeItemMapping))
-                this.$emit('employeeItemMappingUpdated')
+            //parse assignedItem:
+            let employeeItemMapping = JSON.parse(
+                localStorage.getItem("employeeItemMapping")
+            )
+                ? JSON.parse(localStorage.getItem("employeeItemMapping"))
+                : [];
+
+            if (this.selectedEmployee === null) {
+                console.log("No selected employee.");
+                return;
             }
+            const assignedItem = {
+                employeeName: this.selectedEmployee.name,
+                employeeEmail: this.selectedEmployee.email,
+                itemCategory: this.selectedCategoryName,
+                itemBrand: brand,
+                itemModel: model,
+                itemQuantity: this.counters[i],
+            };
+            employeeItemMapping.push(assignedItem);
+            localStorage.setItem(
+                "employeeItemMapping",
+                JSON.stringify(employeeItemMapping)
+            );
+            this.$emit("employeeItemMappingUpdated");
         },
-    }
+    },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
