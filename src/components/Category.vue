@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex justify-between items-center my-2.5">
-            <p class="font-bold text-lg">Category</p>
+            <p class="font-bold text-lg">All Units</p>
             <!-- add Category button start -->
             <button
                 @click="isOpen()"
@@ -61,7 +61,7 @@
             <div
                 class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[400px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md"
             >
-                <p class="ps-4 py-2 font-semibold">Category Information</p>
+                <p class="ps-4 py-2 font-semibold">Category Informations</p>
                 <div
                     @click="isOpenCategoryDetails(item.categoryName, i)"
                     v-for="(item, i) in allProductsCategories"
@@ -158,14 +158,17 @@
                             <th class="border border-slate-200">Category</th>
                             <th class="border border-slate-200">Brand</th>
                             <th class="border border-slate-200">Model</th>
-                            <th class="border border-slate-200">Quantity</th>
+                            <th class="border border-slate-200 border-r-0">
+                                Quantity
+                            </th>
+                            <th class="border border-slate-200 border-l-0"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            v-for="item in selectedCategoryItems"
+                            v-for="(item, i) in selectedCategoryItems"
                             :key="item"
-                            class="hover:bg-slate-200 group"
+                            class="group/item hover:bg-slate-300"
                         >
                             <td class="border border-slate-200 text-center">
                                 {{ item.itemCategory }}
@@ -176,15 +179,18 @@
                             <td class="border border-slate-200 text-center">
                                 {{ item.itemModel }}
                             </td>
-                            <td class="border border-slate-200 text-center">
-                                <p class="inline h-full">
-                                    {{ item.itemQuantity }}
-                                </p>
+                            <td
+                                class="border border-slate-200 border-r-0 text-center"
+                            >
+                                {{ item.itemQuantity }}
+                            </td>
+                            <td class="border border-slate-200 border-l-0">
                                 <span
-                                    class="invisible group-hover:visible float-right me-3"
+                                    class="block text-center group/edit invisible group-hover/item:visible"
                                 >
                                     <button
-                                        class="text-white bg-blue-700 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-3 py-1 my-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                        @click="openEditBtn(item.itemBrand, item.itemModel, item.itemQuantity, item.itemId, i)"
+                                        class="rounded-md bg-transparent hover:bg-blue-700 text-blue-700 hover:text-white border border-blue-700 hover:border-transparent px-3 py-1 my-1"
                                     >
                                         Edit
                                     </button>
@@ -193,6 +199,71 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- Add New Category button area start -->
+                <div
+                    v-if="isVisibleEditBtn"
+                    class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center"
+                >
+                    <div class="h-auto z-50">
+                        <div
+                            class="w-full bg-slate-300 border border-stone-200 mx-auto p-5"
+                        >
+                            <div class="flex justify-between items-center ps-5">
+                                <p class="font-bold text-lg">
+                                    Edit Category Info
+                                </p>
+                                <button
+                                    @click="closedEditBtn()"
+                                    class="border border-red-600 bg-red-600 text-white hover:bg-red-500 rounded-sm px-5 py-1"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                            <div class="mx-auto py-5 px-10 space-y-3 w-full">
+                                <p class="flex flex-nowrap hidden">
+                                    Id: {{ selectedId }}
+                                </p>
+                                <p class="flex flex-nowrap">
+                                    Brand:
+                                    <input
+                                        v-model="selectedBrand"
+                                        class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full"
+                                        type="text"
+                                        name=""
+                                        id=""
+                                    />
+                                </p>
+                                <p class="flex flex-nowrap">
+                                    Model:
+                                    <input
+                                        v-model="selectedModel"
+                                        class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full"
+                                        type="text"
+                                        name=""
+                                        id=""
+                                    />
+                                </p>
+                                <p class="flex flex-nowrap">
+                                    Quantity:
+                                    <input
+                                        v-model.number="selectedQuantity"
+                                        class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ms-2 w-full"
+                                        type="text"
+                                        name=""
+                                        id=""
+                                    />
+                                </p>
+                                <button
+                                    @click="updateCategoryInfo(selectedBrand, selectedModel, selectedQuantity, selectedId)"
+                                    class="border border-sky-600 bg-sky-600 text-white hover:bg-sky-500 rounded-sm px-8 py-1"
+                                >
+                                    Update Info
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add New Category button area end -->
             </div>
             <!-- product unit info end -->
         </div>
@@ -209,13 +280,20 @@ export default {
             isVisibleCategoryDetails: false,
             isVisible: false,
             isVisibleBrand: false,
+            isVisibleEditBtn: false,
             selectedCategoryName: "",
+            selectedId: "",
+            selectedBrand: "",
+            selectedModel: "",
+            selectedQuantity: "",
             totalCategoryQuantity: 0,
             totalItemQuantity: 0,
             allProductsCategories: [],
             singleProductCategory: [], //for deep clone
             brandInfo: [], //for deep clone
             selectedCategoryItems: [],
+            // itemOnly: [],
+            element: [],
             productCategory: {
                 categoryName: "",
                 categoryQuantity: 0,
@@ -240,6 +318,7 @@ export default {
         )
             ? JSON.parse(localStorage.getItem("allProductsCategories"))
             : [];
+            console.log(this.allProductsCategories);
     },
     methods: {
         isOpen() {
@@ -253,11 +332,25 @@ export default {
         isOpenBrand() {
             this.isVisibleBrand = true;
         },
+        openEditBtn(brand, model, quantity, id, i) {
+            console.log(brand);
+            console.log(model);
+            console.log(quantity);
+            console.log(id);
+            this.selectedId = id;
+            this.selectedBrand = brand;
+            this.selectedModel = model,
+            this.selectedQuantity = quantity;
+            this.isVisibleEditBtn = true;
+        },
         isClosed() {
             this.isVisible = false;
         },
         isClosedBrand() {
             this.isVisibleBrand = false;
+        },
+        closedEditBtn() {
+            this.isVisibleEditBtn = false;
         },
         addCategory(value, i) {
             console.log(value);
@@ -317,6 +410,15 @@ export default {
             this.selectedCategoryItems = this.allProductsCategories.filter(
                 (element) => element.categoryName === this.selectedCategoryName
             )[0].items;
+        },
+        updateCategoryInfo(brand, model, quantity, id) {
+            console.log(brand);
+            console.log(model);
+            console.log(quantity);
+            console.log(id);
+            // console.log(this.selectedCategoryItems);
+            
+            this.isVisibleEditBtn = false;
         },
     },
 };
