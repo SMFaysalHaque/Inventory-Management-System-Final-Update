@@ -106,9 +106,40 @@ export default {
             }
         },
         plusButton(value, brand, i) {
-            if (this.counters[i] < value) {
+            console.log(value);
+            
+            // get localStorage
+            let employeesAssignUnits = JSON.parse(
+            localStorage.getItem("employeeItemMapping")
+        )
+            ? JSON.parse(localStorage.getItem("employeeItemMapping"))
+            : [];
+
+            // button available limitation
+            let totalTaken = 0
+            employeesAssignUnits.forEach(quantity => {
+                if(quantity.itemBrand === brand){
+                    totalTaken = totalTaken + quantity.itemQuantity;
+                }
+            });
+            let availableProduct = value - totalTaken
+            if (this.counters[i] < availableProduct) {
                 this.counters[i]++;
             }
+
+        //     this.allProductsSummary.forEach((el1) => {
+        //     let reserveCategory = el1.categoryName;
+        //     let allQuantity = el1.categoryQuantity;
+        //     let totalTaken = 0;
+
+        //     this.employeesAssignUnits.filter((el2) => {
+        //         if (reserveCategory === el2.itemCategory) {
+        //             totalTaken = totalTaken + el2.itemQuantity;
+        //         }
+        //     });
+        //     el1.totalTakenQuantity = totalTaken;
+        //     el1.totalAvailableQuantity = allQuantity - totalTaken;
+        // });
         },
         addAndCloseProductBrand(brand, model, i) {
             this.$emit("closeModal");

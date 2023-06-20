@@ -183,6 +183,7 @@ export default {
         )
             ? JSON.parse(localStorage.getItem("employeeItemMapping"))
             : [];
+            
         this.allProductsSummary = JSON.parse(
             localStorage.getItem("allProductsCategories")
         )

@@ -306,7 +306,7 @@ export default {
             productTakenCount: 0,
             allProductsCategories: [],
             singleProductCategory: [], //for deep clone
-            // brandInfo: [], //for deep clone
+            brandInfo: [], //for deep clone
             selectedCategoryItems: [],
             // itemOnly: [],
             element: [],
@@ -334,7 +334,7 @@ export default {
         )
             ? JSON.parse(localStorage.getItem("allProductsCategories"))
             : [];
-            console.log(this.allProductsCategories);
+        console.log(this.allProductsCategories);
     },
     methods: {
         isOpen() {
@@ -355,10 +355,13 @@ export default {
             console.log(id);
             this.selectedId = id;
             this.selectedBrand = brand;
-            this.selectedModel = model,
-            this.selectedQuantity = quantity;
+            (this.selectedModel = model), (this.selectedQuantity = quantity);
             this.isVisibleEditBtn = true;
-            this.productTakenCount = this.calculateProductTakenCount(brand, model, id)
+            this.productTakenCount = this.calculateProductTakenCount(
+                brand,
+                model,
+                id
+            );
         },
         isClosed() {
             this.isVisible = false;
@@ -388,21 +391,21 @@ export default {
         },
         addBrand(value) {
             this.isVisibleBrand = false;
-            let items = [];
-            for(let i = 0; i < this.singleItem.itemQuantity; i++){
-                let item = {
-                    ...this.singleItem,
-                    itemCategory: this.selectedCategoryName,
-                    itemId: uuidv4(),
-                    itemQuantity: 1
-                }
-                items.push(item)
-            }
-            
-            let brandInfo = JSON.parse(JSON.stringify(items)); //deep clone
-            // this.singleItem.itemCategory = this.selectedCategoryName;
-            // this.singleItem.itemId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-            // this.brandInfo = JSON.parse(JSON.stringify(this.singleItem)); //deep clone
+            // let items = [];
+            // for (let i = 0; i < this.singleItem.itemQuantity; i++) {
+            //     let item = {
+            //         ...this.singleItem,
+            //         itemCategory: this.selectedCategoryName,
+            //         itemId: uuidv4(),
+            //         itemQuantity: 1,
+            //     };
+            //     items.push(item);
+            // }
+
+            // let brandInfo = JSON.parse(JSON.stringify(items)); //deep clone
+            this.singleItem.itemCategory = this.selectedCategoryName;
+            this.singleItem.itemId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+            this.brandInfo = JSON.parse(JSON.stringify(this.singleItem)); //deep clone
             // this.brandInfo.itemQuantity = Number(this.brandInfo.itemQuantity)
 
             this.allProductsCategories = JSON.parse(
@@ -416,7 +419,7 @@ export default {
                     this.allProductsCategories[i].categoryName ===
                     this.selectedCategoryName
                 ) {
-                    this.allProductsCategories[i].items.push(...brandInfo);
+                    this.allProductsCategories[i].items.push(this.brandInfo);
                 }
             }
 
@@ -446,10 +449,9 @@ export default {
             console.log(quantity);
             console.log(id);
 
-            
-            if(quantity < this.productTakenCount){
-                alert("Quantity can not be less than Taken amount.")
-                return
+            if (quantity < this.productTakenCount) {
+                alert("Quantity can not be less than Taken amount.");
+                return;
             }
             // console.log(this.selectedCategoryItems);
             this.allProductsCategories = JSON.parse(
@@ -457,19 +459,22 @@ export default {
             )
                 ? JSON.parse(localStorage.getItem("allProductsCategories"))
                 : [];
-            console.log("Get All Product Category:", this.allProductsCategories);
+            console.log(
+                "Get All Product Category:",
+                this.allProductsCategories
+            );
 
-            this.allProductsCategories.forEach(category => {
-                if(this.selectedCategoryName === category.categoryName){
-                    category.items.forEach(item => {
-                        if(item.itemId === id){
+            this.allProductsCategories.forEach((category) => {
+                if (this.selectedCategoryName === category.categoryName) {
+                    category.items.forEach((item) => {
+                        if (item.itemId === id) {
                             item.itemBrand = brand;
                             item.itemModel = model;
                             item.itemQuantity = quantity;
                         }
-                    })
+                    });
                 }
-            })
+            });
             localStorage.setItem(
                 "allProductsCategories",
                 JSON.stringify(this.allProductsCategories)
@@ -478,34 +483,38 @@ export default {
             this.isVisibleEditBtn = false;
             this.updateSelectedCategoryItems();
         },
-        calculateProductTakenCount(brand, model, id){
+        calculateProductTakenCount(brand, model, id) {
             let product = {};
             for (let i = 0; i < this.allProductsCategories.length; i++) {
-                for (let j = 0; j < this.allProductsCategories[i].items.length; j++) {
+                for (
+                    let j = 0;
+                    j < this.allProductsCategories[i].items.length;
+                    j++
+                ) {
                     let element = this.allProductsCategories[i].items[j];
-                    if(element.itemId === id){
+                    if (element.itemId === id) {
                         product = element;
                     }
-                    
                 }
             }
 
             const employeeItemMapping = JSON.parse(
-            localStorage.getItem("employeeItemMapping")
-        )
-            ? JSON.parse(localStorage.getItem("employeeItemMapping"))
-            : [];
-            // relation with this.availableProduct and this.employeeItemMapping
-            
+                localStorage.getItem("employeeItemMapping")
+            )
+                ? JSON.parse(localStorage.getItem("employeeItemMapping"))
+                : [];
 
             let totalTaken = 0;
-            employeeItemMapping.forEach(element => {
-                if(element.itemBrand === brand && element.itemModel === model){
-                    totalTaken += element.itemQuantity
+            employeeItemMapping.forEach((element) => {
+                if (
+                    element.itemBrand === brand &&
+                    element.itemModel === model
+                ) {
+                    totalTaken += element.itemQuantity;
                 }
-            })
-            return totalTaken
-        }
+            });
+            return totalTaken;
+        },
     },
 };
 </script>
