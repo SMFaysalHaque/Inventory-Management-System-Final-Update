@@ -189,7 +189,15 @@
                                     class="block text-center group/edit invisible group-hover/item:visible"
                                 >
                                     <button
-                                        @click="openEditBtn(item.itemBrand, item.itemModel, item.itemQuantity, item.itemId, i)"
+                                        @click="
+                                            openEditBtn(
+                                                item.itemBrand,
+                                                item.itemModel,
+                                                item.itemQuantity,
+                                                item.itemId,
+                                                i
+                                            )
+                                        "
                                         class="rounded-md bg-transparent hover:bg-blue-700 text-blue-700 hover:text-white border border-blue-700 hover:border-transparent px-3 py-1 my-1"
                                     >
                                         Edit
@@ -254,7 +262,14 @@
                                     />
                                 </p>
                                 <button
-                                    @click="updateCategoryInfo(selectedBrand, selectedModel, selectedQuantity, selectedId)"
+                                    @click="
+                                        updateCategoryInfo(
+                                            selectedBrand,
+                                            selectedModel,
+                                            selectedQuantity,
+                                            selectedId
+                                        )
+                                    "
                                     class="border border-sky-600 bg-sky-600 text-white hover:bg-sky-500 rounded-sm px-8 py-1"
                                 >
                                     Update Info
@@ -288,9 +303,10 @@ export default {
             selectedQuantity: "",
             totalCategoryQuantity: 0,
             totalItemQuantity: 0,
+            productTakenCount: 0,
             allProductsCategories: [],
             singleProductCategory: [], //for deep clone
-            brandInfo: [], //for deep clone
+            // brandInfo: [], //for deep clone
             selectedCategoryItems: [],
             // itemOnly: [],
             element: [],
@@ -342,6 +358,7 @@ export default {
             this.selectedModel = model,
             this.selectedQuantity = quantity;
             this.isVisibleEditBtn = true;
+            this.productTakenCount = this.calculateProductTakenCount(brand, model, id)
         },
         isClosed() {
             this.isVisible = false;
@@ -371,9 +388,21 @@ export default {
         },
         addBrand(value) {
             this.isVisibleBrand = false;
-            this.singleItem.itemCategory = this.selectedCategoryName;
-            this.singleItem.itemId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-            this.brandInfo = JSON.parse(JSON.stringify(this.singleItem)); //deep clone
+            let items = [];
+            for(let i = 0; i < this.singleItem.itemQuantity; i++){
+                let item = {
+                    ...this.singleItem,
+                    itemCategory: this.selectedCategoryName,
+                    itemId: uuidv4(),
+                    itemQuantity: 1
+                }
+                items.push(item)
+            }
+            
+            let brandInfo = JSON.parse(JSON.stringify(items)); //deep clone
+            // this.singleItem.itemCategory = this.selectedCategoryName;
+            // this.singleItem.itemId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+            // this.brandInfo = JSON.parse(JSON.stringify(this.singleItem)); //deep clone
             // this.brandInfo.itemQuantity = Number(this.brandInfo.itemQuantity)
 
             this.allProductsCategories = JSON.parse(
@@ -387,7 +416,7 @@ export default {
                     this.allProductsCategories[i].categoryName ===
                     this.selectedCategoryName
                 ) {
-                    this.allProductsCategories[i].items.push(this.brandInfo);
+                    this.allProductsCategories[i].items.push(...brandInfo);
                 }
             }
 
@@ -416,10 +445,67 @@ export default {
             console.log(model);
             console.log(quantity);
             console.log(id);
-            // console.log(this.selectedCategoryItems);
+
             
+            if(quantity < this.productTakenCount){
+                alert("Quantity can not be less than Taken amount.")
+                return
+            }
+            // console.log(this.selectedCategoryItems);
+            this.allProductsCategories = JSON.parse(
+                localStorage.getItem("allProductsCategories")
+            )
+                ? JSON.parse(localStorage.getItem("allProductsCategories"))
+                : [];
+            console.log("Get All Product Category:", this.allProductsCategories);
+
+            this.allProductsCategories.forEach(category => {
+                if(this.selectedCategoryName === category.categoryName){
+                    category.items.forEach(item => {
+                        if(item.itemId === id){
+                            item.itemBrand = brand;
+                            item.itemModel = model;
+                            item.itemQuantity = quantity;
+                        }
+                    })
+                }
+            })
+            localStorage.setItem(
+                "allProductsCategories",
+                JSON.stringify(this.allProductsCategories)
+            );
+
             this.isVisibleEditBtn = false;
+            this.updateSelectedCategoryItems();
         },
+        calculateProductTakenCount(brand, model, id){
+            let product = {};
+            for (let i = 0; i < this.allProductsCategories.length; i++) {
+                for (let j = 0; j < this.allProductsCategories[i].items.length; j++) {
+                    let element = this.allProductsCategories[i].items[j];
+                    if(element.itemId === id){
+                        product = element;
+                    }
+                    
+                }
+            }
+
+            const employeeItemMapping = JSON.parse(
+            localStorage.getItem("employeeItemMapping")
+        )
+            ? JSON.parse(localStorage.getItem("employeeItemMapping"))
+            : [];
+            // relation with this.availableProduct and this.employeeItemMapping
+            
+
+            let totalTaken = 0;
+            employeeItemMapping.forEach(element => {
+                if(element.itemBrand === brand && element.itemModel === model){
+                    totalTaken += element.itemQuantity
+                }
+            })
+            return totalTaken
+        }
     },
 };
 </script>
