@@ -33,14 +33,8 @@
                     </li>
                 </ul>
             </div>
-            <div class="">
-                <input
-                    class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-2"
-                    type="search"
-                    name=""
-                    id=""
-                    placeholder="Search Employee Name"
-                />
+            <div>
+                <p class="hidden">Nothing</p>
             </div>
         </div>
     </nav>
