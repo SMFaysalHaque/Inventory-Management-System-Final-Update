@@ -34,7 +34,7 @@
                         @click="
                             brandProductModal(singleProduct.categoryName, i)
                         "
-                        class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2"
+                        class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2 me-1"
                     >
                         add
                     </button>
@@ -88,7 +88,6 @@ export default {
         // assign button filter area end
     },
     methods: {
-        addModel() {},
         closeModal(i) {
             this.$emit("closeModal");
             this.filterProduct[i]["isActive"] = false;

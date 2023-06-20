@@ -68,16 +68,33 @@
                     :key="item"
                     class="flex justify-between ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y"
                 >
-                    
                     <div class="flex">
                         <p class="px-2">{{ i + 1 }} .</p>
                         <p>{{ item.categoryName }}</p>
                     </div>
                     <button
                         @click="isOpenBrand()"
-                        class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2 me-10"
+                        class="me-10"
                     >
-                        add
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="30px"
+                            height="28px"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            class="hover:bg-slate-400 rounded-full"
+                        >
+                            <g id="Edit / Add_Plus_Circle">
+                                <path
+                                    id="Vector"
+                                    d="M8 12H12M12 12H16M12 12V16M12 12V8M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z"
+                                    stroke="#000000"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </g>
+                        </svg>
                     </button>
                 </div>
             </div>
