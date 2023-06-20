@@ -3,14 +3,19 @@
         <div
             class="assign-area border border-stone-300 rounded-sm w-[500px] ms-5 mt-3 px-1 py-1"
         >
-            <div class="flex w-auto">
-                <input
-                    class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 px-1 me-1 w-full"
-                    type="search"
-                    name=""
-                    id=""
-                    placeholder="Search"
-                />
+            <div
+                class="flex justify-between items-center border-b-2 w-auto pb-1"
+            >
+                <p class="font-bold">
+                    Assign Units
+                    <input
+                        class="border rounded-lg contrast-more:border-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 px-1 me-1 w-full hidden"
+                        type="search"
+                        name=""
+                        id=""
+                        placeholder="Search"
+                    />
+                </p>
                 <button
                     class="border border-red-600 bg-red-600 text-white hover:bg-red-500 rounded-sm px-2"
                     @click="$emit('closeAssignBtn')"

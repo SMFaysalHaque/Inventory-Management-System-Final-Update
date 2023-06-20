@@ -31,7 +31,7 @@
         <div class="flex bg-gray-100 font-sans rounded-md my-2">
             <!-- sidebar start -->
             <div
-                class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[300px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md"
+                class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[400px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md"
             >
                 <p class="ps-4 py-2 font-semibold">Employee Information</p>
                 <div

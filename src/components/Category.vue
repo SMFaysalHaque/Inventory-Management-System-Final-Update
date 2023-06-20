@@ -61,20 +61,21 @@
             <div
                 class="sidebar top-0 bottom-0 lg:left-0 left-[-300px] w-[400px] overflow-y-auto text-start bg-gray-300 shadow h-screen rounded-s-md"
             >
-                <p class="ps-4 py-2 font-semibold">Category Informations</p>
+                <p class="ps-4 py-2 font-semibold">Category Information</p>
                 <div
                     @click="isOpenCategoryDetails(item.categoryName, i)"
                     v-for="(item, i) in allProductsCategories"
                     :key="item"
-                    class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y"
+                    class="flex justify-between ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y"
                 >
-                    <p class="px-2">{{ i + 1 }}</p>
-                    <div class="me-20 px-2">
+                    
+                    <div class="flex">
+                        <p class="px-2">{{ i + 1 }} .</p>
                         <p>{{ item.categoryName }}</p>
                     </div>
                     <button
                         @click="isOpenBrand()"
-                        class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2"
+                        class="border border-green-700 bg-green-700 hover:bg-green-500 hover:border-green-500 rounded-sm text-white px-2 me-10"
                     >
                         add
                     </button>

@@ -14,32 +14,32 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="border border-slate-300 bg-blue-100 w-1/12 py-2 text-center"
+                                    class="border border-slate-200 bg-gray-300 w-1/12 py-2 text-center"
                                 >
                                     Status
                                 </th>
                                 <th
-                                    class="border border-slate-300 bg-blue-100 w-2/12 py-2 text-center"
+                                    class="border border-slate-200 bg-gray-300 w-2/12 py-2 text-center"
                                 >
                                     Category
                                 </th>
                                 <th
-                                    class="border border-slate-300 bg-blue-100 w-2/12 py-2 text-center"
+                                    class="border border-slate-200 bg-gray-300 w-2/12 py-2 text-center"
                                 >
                                     Brand
                                 </th>
                                 <th
-                                    class="border border-slate-300 bg-blue-100 w-2/12 py-2 text-center"
+                                    class="border border-slate-200 bg-gray-300 w-2/12 py-2 text-center"
                                 >
                                     Model
                                 </th>
                                 <th
-                                    class="border border-slate-300 bg-blue-100 w-2/12 py-2 text-center"
+                                    class="border border-slate-200 bg-gray-300 w-2/12 py-2 text-center"
                                 >
                                     Quantity
                                 </th>
                                 <th
-                                    class="border border-slate-300 bg-blue-100 w-3/12 py-2 text-center"
+                                    class="border border-slate-200 bg-gray-300 w-3/12 py-2 text-center"
                                 >
                                     Assign To
                                 </th>
@@ -51,32 +51,32 @@
                                 :key="singleEmployeeAssignUnit"
                             >
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     Taken
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleEmployeeAssignUnit.itemCategory }}
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleEmployeeAssignUnit.itemBrand }}
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleEmployeeAssignUnit.itemModel }}
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleEmployeeAssignUnit.itemQuantity }}
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleEmployeeAssignUnit.employeeName }}
                                 </td>
@@ -96,22 +96,22 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="border border-slate-300 w-80 py-2 bg-blue-100"
+                                    class="border border-slate-200 w-80 py-2 bg-gray-300"
                                 >
                                     Category
                                 </th>
                                 <th
-                                    class="border border-slate-300 w-80 py-2 bg-blue-100"
+                                    class="border border-slate-200 w-80 py-2 bg-gray-300"
                                 >
                                     Total Quantity
                                 </th>
                                 <th
-                                    class="border border-slate-300 w-64 py-2 bg-blue-100"
+                                    class="border border-slate-200 w-64 py-2 bg-gray-300"
                                 >
                                     <a href="/AvailableProduct/">Available</a>
                                 </th>
                                 <th
-                                    class="border border-slate-300 w-64 py-2 bg-blue-100"
+                                    class="border border-slate-200 w-64 py-2 bg-gray-300"
                                 >
                                     <a href="/TakenProduct/">Taken</a>
                                 </th>
@@ -123,24 +123,24 @@
                                 :key="singleProductSummary"
                             >
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleProductSummary.categoryName }}
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     {{ singleProductSummary.categoryQuantity }}
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     <a href="/AvailableProduct/">{{
                                         singleProductSummary.totalAvailableQuantity
                                     }}</a>
                                 </td>
                                 <td
-                                    class="border border-slate-300 text-center py-3"
+                                    class="border border-slate-200 text-center py-3"
                                 >
                                     <a href="/TakenProduct/">{{
                                         singleProductSummary.totalTakenQuantity
@@ -183,7 +183,7 @@ export default {
         )
             ? JSON.parse(localStorage.getItem("employeeItemMapping"))
             : [];
-            
+
         this.allProductsSummary = JSON.parse(
             localStorage.getItem("allProductsCategories")
         )

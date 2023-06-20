@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="w-full">
+        <!-- :disabled="" -->
+        <div class="border-b-2 w-auto">
             <div
                 v-for="(singleBrand, index) in brand"
                 :key="singleBrand"
@@ -20,7 +21,7 @@
                         @click="
                             plusButton(
                                 singleBrand.itemQuantity,
-                                singleBrand.itemBrand,
+                                singleBrand.itemModel,
                                 index
                             )
                         "
@@ -75,6 +76,7 @@ export default {
             allItems: [],
             brand: [],
             employeeItemMapping: [],
+            availableProduct: 0,
             isVisibleProductBrand: false,
         };
     },
@@ -105,41 +107,43 @@ export default {
                 this.counters[i]--;
             }
         },
-        plusButton(value, brand, i) {
+        plusButton(value, model, i) {
             console.log(value);
-            
+
             // get localStorage
             let employeesAssignUnits = JSON.parse(
-            localStorage.getItem("employeeItemMapping")
-        )
-            ? JSON.parse(localStorage.getItem("employeeItemMapping"))
-            : [];
+                localStorage.getItem("employeeItemMapping")
+            )
+                ? JSON.parse(localStorage.getItem("employeeItemMapping"))
+                : [];
 
             // button available limitation
-            let totalTaken = 0
-            employeesAssignUnits.forEach(quantity => {
-                if(quantity.itemBrand === brand){
+            let totalTaken = 0;
+            employeesAssignUnits.forEach((quantity) => {
+                if (quantity.itemModel === model) {
                     totalTaken = totalTaken + quantity.itemQuantity;
                 }
             });
-            let availableProduct = value - totalTaken
-            if (this.counters[i] < availableProduct) {
+            this.availableProduct = value - totalTaken;
+            if (this.counters[i] < this.availableProduct) {
                 this.counters[i]++;
+            } else if (this.availableProduct == 0) {
+                this.isVisibleProductBrand = false;
             }
 
-        //     this.allProductsSummary.forEach((el1) => {
-        //     let reserveCategory = el1.categoryName;
-        //     let allQuantity = el1.categoryQuantity;
-        //     let totalTaken = 0;
+            //     this.allProductsSummary.forEach((el1) => {
+            //     let reserveCategory = el1.categoryName;
+            //     let allQuantity = el1.categoryQuantity;
+            //     let totalTaken = 0;
 
-        //     this.employeesAssignUnits.filter((el2) => {
-        //         if (reserveCategory === el2.itemCategory) {
-        //             totalTaken = totalTaken + el2.itemQuantity;
-        //         }
-        //     });
-        //     el1.totalTakenQuantity = totalTaken;
-        //     el1.totalAvailableQuantity = allQuantity - totalTaken;
-        // });
+            //     this.employeesAssignUnits.filter((el2) => {
+            //         if (reserveCategory === el2.itemCategory) {
+            //             totalTaken = totalTaken + el2.itemQuantity;
+            //         }
+            //     });
+            //     el1.totalTakenQuantity = totalTaken;
+            //     el1.totalAvailableQuantity = allQuantity - totalTaken;
+            // });
         },
         addAndCloseProductBrand(brand, model, i) {
             this.$emit("closeModal");
