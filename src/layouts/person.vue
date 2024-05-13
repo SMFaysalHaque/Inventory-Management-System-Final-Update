@@ -38,7 +38,7 @@
                     @click="isShowedEmployeeAllUnits(employee, i)"
                     v-for="(employee, i) in allEmployeeList"
                     :key="employee.i"
-                    class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y"
+                    class="flex ps-3 py-2 w-full hover:bg-slate-100 hover:ease-in duration-150 border-y hover:cursor-pointer"
                 >
                     <p class="px-2">{{ i + 1 }}</p>
                     <div class="px-2">
