@@ -246,7 +246,7 @@
                                 </button>
                             </div>
                             <div class="mx-auto py-5 px-10 space-y-3 w-full">
-                                <p class="flex flex-nowrap hidden">
+                                <p class="flex flex-nowrap">
                                     Id: {{ selectedId }}
                                 </p>
                                 <p class="flex flex-nowrap">
@@ -351,8 +351,7 @@ export default {
             localStorage.getItem("allProductsCategories")
         )
             ? JSON.parse(localStorage.getItem("allProductsCategories"))
-            : [];
-        console.log(this.allProductsCategories);
+            : []
     },
     methods: {
         isOpen() {
@@ -367,11 +366,7 @@ export default {
             this.isVisibleBrand = true;
         },
         openEditBtn(brand, model, quantity, id, i) {
-            console.log(brand);
-            console.log(model);
-            console.log(quantity);
-            console.log(id);
-            this.selectedId = id;
+            this.selectedId = id
             this.selectedBrand = brand;
             (this.selectedModel = model), (this.selectedQuantity = quantity);
             this.isVisibleEditBtn = true;
@@ -391,8 +386,7 @@ export default {
             this.isVisibleEditBtn = false;
         },
         addCategory(value, i) {
-            console.log(value);
-            this.isVisible = false;
+            this.isVisible = false
             this.singleProductCategory = JSON.parse(
                 JSON.stringify(this.productCategory)
             ); //deep clone
@@ -462,25 +456,15 @@ export default {
             )[0].items;
         },
         updateCategoryInfo(brand, model, quantity, id) {
-            console.log(brand);
-            console.log(model);
-            console.log(quantity);
-            console.log(id);
-
             if (quantity < this.productTakenCount) {
                 alert("Quantity can not be less than Taken amount.");
                 return;
             }
-            // console.log(this.selectedCategoryItems);
             this.allProductsCategories = JSON.parse(
                 localStorage.getItem("allProductsCategories")
             )
                 ? JSON.parse(localStorage.getItem("allProductsCategories"))
-                : [];
-            console.log(
-                "Get All Product Category:",
-                this.allProductsCategories
-            );
+                : []
 
             this.allProductsCategories.forEach((category) => {
                 if (this.selectedCategoryName === category.categoryName) {
