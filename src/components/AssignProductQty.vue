@@ -21,6 +21,7 @@
                         @click="
                             plusButton(
                                 singleBrand.itemQuantity,
+                                singleBrand.itemBrand,
                                 singleBrand.itemModel,
                                 index
                             )
@@ -43,6 +44,60 @@
                     >
                         add
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div
+            v-if="isVisible"
+            class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center"
+        >
+            <div class="h-auto w-96 z-50">
+                <div
+                    class="w-full bg-slate-300 border border-stone-200 rounded-sm mx-auto p-5"
+                >
+                    <div class="flex justify-between items-center ps-5">
+                        <p class="font-bold text-xl">Warning...</p>
+                        <button
+                            @click="isVisible = false"
+                            class="border border-red-600 bg-red-600 text-white hover:bg-red-500 w-7 h-7 rounded-full ps-[5.25px]"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M4.70703 3.29297L3.29297 4.70703L10.5859 12L3.29297 19.293L4.70703 20.707L12 13.4141L19.293 20.707L20.707 19.293L13.4141 12L20.707 4.70703L19.293 3.29297L12 10.5859L4.70703 3.29297Z" fill="#FFFF"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <p class="text-lg ps-5 mt-3">
+                        Adding at least <b>1</b> item from <b>{{ brandName }}</b> is required...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div
+            v-if="quantityZero"
+            class="fixed inset-0 bg-black bg-opacity-60 z-50 w-full h-full flex justify-center items-center"
+        >
+            <div class="h-auto w-96 z-50">
+                <div
+                    class="w-full bg-slate-300 border border-stone-200 rounded-sm mx-auto p-5"
+                >
+                    <div class="flex justify-between items-center ps-5">
+                        <p class="font-bold text-xl">Warning...</p>
+                        <button
+                            @click="quantityZero = false"
+                            class="border border-red-600 bg-red-600 text-white hover:bg-red-500 w-7 h-7 rounded-full ps-[5.25px]"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M4.70703 3.29297L3.29297 4.70703L10.5859 12L3.29297 19.293L4.70703 20.707L12 13.4141L19.293 20.707L20.707 19.293L13.4141 12L20.707 4.70703L19.293 3.29297L12 10.5859L4.70703 3.29297Z" fill="#FFFF"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <p class="text-lg ps-5 mt-3">
+                        No more item(s) in <b>{{ brandName }}</b>...
+                    </p>
                 </div>
             </div>
         </div>
@@ -78,6 +133,9 @@ export default {
             employeeItemMapping: [],
             availableProduct: 0,
             isVisibleProductBrand: false,
+            isVisible: false,
+            quantityZero: false,
+            brandName: ''
         };
     },
     mounted() {
@@ -90,7 +148,7 @@ export default {
                 element = this.allItems[index].items[j].itemCategory;
                 if (this.selectedCategoryName === element) {
                     let allBrand = this.allItems[index].items[j];
-                    this.brand.push(allBrand);
+                    this.brand.push(allBrand)
                 } else {
                     console.log("what????????");
                 }
@@ -107,9 +165,7 @@ export default {
                 this.counters[i]--;
             }
         },
-        plusButton(value, model, i) {
-            console.log(value);
-
+        plusButton(value, brand, model, i) {
             // get localStorage
             let employeesAssignUnits = JSON.parse(
                 localStorage.getItem("employeeItemMapping")
@@ -129,6 +185,8 @@ export default {
                 this.counters[i]++;
             } else if (this.availableProduct == 0) {
                 this.isVisibleProductBrand = false;
+                this.brandName = (brand + ' ' + model)
+                this.quantityZero = true;
             }
 
             //     this.allProductsSummary.forEach((el1) => {
@@ -146,34 +204,39 @@ export default {
             // });
         },
         addAndCloseProductBrand(brand, model, i) {
-            this.$emit("closeModal");
-            this.brand[i].isActive = !this.brand[i].isActive;
+            if (this.counters[i] < 1) {
+                this.isVisible = true
+                this.brandName = (brand + ' ' + model)
+            } else {
+                this.$emit("closeModal");
+                this.brand[i].isActive = !this.brand[i].isActive;
 
-            //parse assignedItem:
-            let employeeItemMapping = JSON.parse(
-                localStorage.getItem("employeeItemMapping")
-            )
-                ? JSON.parse(localStorage.getItem("employeeItemMapping"))
-                : [];
+                //parse assignedItem:
+                let employeeItemMapping = JSON.parse(
+                    localStorage.getItem("employeeItemMapping")
+                )
+                    ? JSON.parse(localStorage.getItem("employeeItemMapping"))
+                    : [];
 
-            if (this.selectedEmployee === null) {
-                console.log("No selected employee.");
-                return;
+                if (this.selectedEmployee === null) {
+                    console.log("No selected employee.");
+                    return;
+                }
+                const assignedItem = {
+                    employeeName: this.selectedEmployee.name,
+                    employeeEmail: this.selectedEmployee.email,
+                    itemCategory: this.selectedCategoryName,
+                    itemBrand: brand,
+                    itemModel: model,
+                    itemQuantity: this.counters[i],
+                };
+                employeeItemMapping.push(assignedItem);
+                localStorage.setItem(
+                    "employeeItemMapping",
+                    JSON.stringify(employeeItemMapping)
+                );
+                this.$emit("employeeItemMappingUpdated");
             }
-            const assignedItem = {
-                employeeName: this.selectedEmployee.name,
-                employeeEmail: this.selectedEmployee.email,
-                itemCategory: this.selectedCategoryName,
-                itemBrand: brand,
-                itemModel: model,
-                itemQuantity: this.counters[i],
-            };
-            employeeItemMapping.push(assignedItem);
-            localStorage.setItem(
-                "employeeItemMapping",
-                JSON.stringify(employeeItemMapping)
-            );
-            this.$emit("employeeItemMappingUpdated");
         },
     },
 };
