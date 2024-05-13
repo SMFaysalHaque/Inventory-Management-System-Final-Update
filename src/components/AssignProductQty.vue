@@ -148,7 +148,7 @@ export default {
                 element = this.allItems[index].items[j].itemCategory;
                 if (this.selectedCategoryName === element) {
                     let allBrand = this.allItems[index].items[j];
-                    this.brand.push(allBrand);
+                    this.brand.push(allBrand)
                 } else {
                     console.log("what????????");
                 }
@@ -166,8 +166,6 @@ export default {
             }
         },
         plusButton(value, brand, model, i) {
-            console.log(value);
-
             // get localStorage
             let employeesAssignUnits = JSON.parse(
                 localStorage.getItem("employeeItemMapping")
