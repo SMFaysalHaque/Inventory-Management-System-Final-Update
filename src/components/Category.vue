@@ -246,7 +246,7 @@
                                 </button>
                             </div>
                             <div class="mx-auto py-5 px-10 space-y-3 w-full">
-                                <p class="flex flex-nowrap hidden">
+                                <p class="flex flex-nowrap">
                                     Id: {{ selectedId }}
                                 </p>
                                 <p class="flex flex-nowrap">

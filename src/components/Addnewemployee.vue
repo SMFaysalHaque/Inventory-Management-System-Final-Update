@@ -87,8 +87,7 @@ export default {
     methods: {
         addNewEmployee() {
             this.$emit("addNewEmployee", this.employeeInfo);
-            this.$emit("close");
-            console.log("employeeInfo:", this.employeeInfo);
+            this.$emit("close")
         },
         closeModal() {
             this.$emit("close");

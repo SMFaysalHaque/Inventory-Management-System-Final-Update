@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import AssignProductQty from "./AssignProductQty.vue";
+import AssignProductQty from "./AssignProductQty.vue"
 export default {
     emits: ["closeAssignBtn", "closeModal", "employeeItemMappingUpdated"],
     props: ["selectedEmployee"],
@@ -80,46 +80,41 @@ export default {
             uniqueProductCategory: {},
             selectedCategoryName: "",
             selectedIndex: -1
-        };
+        }
     },
     mounted() {
         this.products = JSON.parse(
             localStorage.getItem("allProductsCategories")
-        );
+        )
         // assign button filter area start
         for (let i in this.products) {
             for (let j in this.products[i].items) {
-                let objCategory = this.products[i].items[j]["itemCategory"];
-                this.uniqueProductCategory[objCategory] = this.products[i];
+                let objCategory = this.products[i].items[j]["itemCategory"]
+                this.uniqueProductCategory[objCategory] = this.products[i]
             }
         }
         // Loop to push unique object into array
         for (let i in this.uniqueProductCategory) {
-            this.filterProduct.push(this.uniqueProductCategory[i]);
+            this.filterProduct.push(this.uniqueProductCategory[i])
         }
         // assign button filter area end
     },
     methods: {
         closeModal(i) {
-            this.$emit("closeModal");
-            this.filterProduct[i]["isActive"] = false;
+            this.$emit("closeModal")
+            this.filterProduct[i]["isActive"] = false
         },
         brandProductModal(value, i) {
-            console.log(value);
-            console.log(i);
             this.selectedIndex = i
-            console.log('Selected Index:::', this.selectedIndex);
-            // value.isActive = true
-            this.filterProduct[i]["isActive"] = true;
-            // this.selectedCategoryName = value.category
-            this.selectedCategoryName = value;
+            this.filterProduct[i]["isActive"] = true
+            this.selectedCategoryName = value
         },
         closeItem (i) {
             this.filterProduct[i]["isActive"] = false
             this.selectedIndex = -1
         }
     },
-};
+}
 </script>
 
 <style lang="scss" scoped></style>
